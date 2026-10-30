@@ -46,7 +46,13 @@ h3{font-size:1.02rem;margin:0 0 6px;letter-spacing:.02em}
 p{margin:0 0 10px}
 .muted{color:var(--muted)}
 .eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;color:var(--muted);font-weight:700}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+textarea.essay{font:inherit;font-size:1.02rem;line-height:1.6;width:100%;min-height:260px;padding:12px;border:2px solid var(--line2);border-radius:8px;background:var(--paper);color:var(--text);resize:vertical;box-sizing:border-box}
+.model{font-size:1.02rem;line-height:1.75;max-width:65ch;white-space:pre-line;border-left:3px solid var(--margin);padding-left:14px;margin-top:10px}
+.taskhead{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between}
+.twocol{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:10px 0}
+.twocol ul{margin:4px 0 0;padding-left:18px}
+.wc{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.9rem}
 .tile{border:1px solid var(--line2);border-radius:10px;padding:14px 16px;background:var(--card);cursor:pointer;text-align:left;font:inherit;color:inherit;display:grid;gap:4px}
 .tile:hover{border-color:var(--ink)}
 .tile b{font-family:var(--f-display);font-weight:400;color:var(--ink);font-size:1.15rem}
@@ -193,7 +199,23 @@ const V={
  "parler":{no:"å snakke",p:["parle","parles","parle","parlons","parlez","parlent"],imp:"parl",fut:"parler",pp:"parlé",aux:"a"},
  "manger":{no:"å spise",p:["mange","manges","mange","mangeons","mangez","mangent"],impF:["mangeais","mangeais","mangeait","mangions","mangiez","mangeaient"],fut:"manger",pp:"mangé",aux:"a"},
  "finir":{no:"å avslutte",p:["finis","finis","finit","finissons","finissez","finissent"],imp:"finiss",fut:"finir",pp:"fini",aux:"a"},
- "attendre":{no:"å vente",p:["attends","attends","attend","attendons","attendez","attendent"],imp:"attend",fut:"attendr",pp:"attendu",aux:"a"}
+ "attendre":{no:"å vente",p:["attends","attends","attend","attendons","attendez","attendent"],imp:"attend",fut:"attendr",pp:"attendu",aux:"a"},
+ "mettre":{no:"å sette/legge/ta på",p:["mets","mets","met","mettons","mettez","mettent"],imp:"mett",fut:"mettr",pp:"mis",aux:"a"},
+ "lire":{no:"å lese",p:["lis","lis","lit","lisons","lisez","lisent"],imp:"lis",fut:"lir",pp:"lu",aux:"a"},
+ "écrire":{no:"å skrive",p:["écris","écris","écrit","écrivons","écrivez","écrivent"],imp:"écriv",fut:"écrir",pp:"écrit",aux:"a"},
+ "sortir":{no:"å gå ut",p:["sors","sors","sort","sortons","sortez","sortent"],imp:"sort",fut:"sortir",pp:"sorti",aux:"e"},
+ "boire":{no:"å drikke",p:["bois","bois","boit","buvons","buvez","boivent"],imp:"buv",fut:"boir",pp:"bu",aux:"a"},
+ "connaître":{no:"å kjenne",p:["connais","connais","connaît","connaissons","connaissez","connaissent"],imp:"connaiss",fut:"connaîtr",pp:"connu",aux:"a"},
+ "croire":{no:"å tro",p:["crois","crois","croit","croyons","croyez","croient"],imp:"croy",fut:"croir",pp:"cru",aux:"a"},
+ "ouvrir":{no:"å åpne",p:["ouvre","ouvres","ouvre","ouvrons","ouvrez","ouvrent"],imp:"ouvr",fut:"ouvrir",pp:"ouvert",aux:"a"},
+ "recevoir":{no:"å motta/få",p:["reçois","reçois","reçoit","recevons","recevez","reçoivent"],imp:"recev",fut:"recevr",pp:"reçu",aux:"a"},
+ "vivre":{no:"å leve/bo",p:["vis","vis","vit","vivons","vivez","vivent"],imp:"viv",fut:"vivr",pp:"vécu",aux:"a"},
+ "choisir":{no:"å velge",p:["choisis","choisis","choisit","choisissons","choisissez","choisissent"],imp:"choisiss",fut:"choisir",pp:"choisi",aux:"a"},
+ "acheter":{no:"å kjøpe",p:["achète","achètes","achète","achetons","achetez","achètent"],imp:"achet",fut:"achèter",pp:"acheté",aux:"a"},
+ "préférer":{no:"å foretrekke",p:["préfère","préfères","préfère","préférons","préférez","préfèrent"],imp:"préfér",fut:"préférer",pp:"préféré",aux:"a"},
+ "arriver":{no:"å ankomme",p:["arrive","arrives","arrive","arrivons","arrivez","arrivent"],imp:"arriv",fut:"arriver",pp:"arrivé",aux:"e"},
+ "rester":{no:"å bli (værende)",p:["reste","restes","reste","restons","restez","restent"],imp:"rest",fut:"rester",pp:"resté",aux:"e"},
+ "comprendre":{no:"å forstå",p:["comprends","comprends","comprend","comprenons","comprenez","comprennent"],imp:"compren",fut:"comprendr",pp:"compris",aux:"a"}
 };
 const TENSES={pres:"Présent",pc:"Passé composé",imp:"Imparfait",fp:"Futur proche",fut:"Futur simple",cond:"Conditionnel"};
 const TENSE_NO={pres:"nåtid",pc:"fortid – avsluttet handling",imp:"fortid – bakgrunn/vane",fp:"skal/kommer til å",fut:"framtid",cond:"ville ha/kunne"};
@@ -214,7 +236,7 @@ function forms(vb,t,pi){
 function pronFor(pi,ans){ if(pi===0 && /^[aeiouéèêh]/i.test(ans)) return "j'"; return PERS[pi]; }
 function stripPron(s){return s.replace(/^(je |j'|tu |il |elle |on |nous |vous |ils |elles )/,"");}
 let verbCfg={tenses:new Set(["pres","pc","imp"]),verbs:"alle"};
-const VGROUPS={alle:Object.keys(V),vanlige:["être","avoir","aller","faire","prendre","pouvoir","vouloir","venir"],regel:["parler","manger","finir","attendre"]};
+const VGROUPS={alle:Object.keys(V),vanlige:["être","avoir","aller","faire","prendre","pouvoir","vouloir","venir"],regel:["parler","manger","finir","attendre","choisir","acheter","préférer","arriver","rester"],etre:["aller","venir","partir","sortir","arriver","rester"],ekstra:["mettre","lire","écrire","sortir","boire","connaître","croire","ouvrir","recevoir","vivre","comprendre"]};
 
 function viewVerb(root,forced){
   const box=$(`<section class="view"></section>`);
@@ -225,7 +247,7 @@ function viewVerb(root,forced){
   if(!forced) box.append(cfg);
   const tch=cfg.querySelector("#tch"), vch=cfg.querySelector("#vch");
   Object.entries(TENSES).forEach(([k,l])=>{const b=$(`<button class="chip" aria-pressed="${verbCfg.tenses.has(k)}">${l}</button>`);b.onclick=()=>{if(verbCfg.tenses.has(k)){if(verbCfg.tenses.size>1)verbCfg.tenses.delete(k);}else verbCfg.tenses.add(k);b.setAttribute("aria-pressed",verbCfg.tenses.has(k));next();};tch.append(b);});
-  [["alle","Alle verb"],["vanlige","De viktigste uregelrette"],["regel","Regelrette (-er, -ir, -re)"]].forEach(([k,l])=>{const b=$(`<button class="chip" aria-pressed="${verbCfg.verbs===k}">${l}</button>`);b.onclick=()=>{verbCfg.verbs=k;vch.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");next();};vch.append(b);});
+  [["alle","Alle verb"],["vanlige","De viktigste uregelrette"],["regel","Regelrette (-er, -ir, -re)"],["etre","Bøyes med être"],["ekstra","Flere uregelrette"]].forEach(([k,l])=>{const b=$(`<button class="chip" aria-pressed="${verbCfg.verbs===k}">${l}</button>`);b.onclick=()=>{verbCfg.verbs=k;vch.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");next();};vch.append(b);});
 
   const card=$(`<div class="card"></div>`); box.append(card);
   const tbl=$(`<div class="card"><h3>Slå opp et verb</h3><div class="row" style="margin-bottom:10px"><select id="vsel" class="chip" style="padding:6px 10px"></select></div><div class="tablewrap" id="vtab"></div></div>`);
@@ -331,6 +353,121 @@ const G=[
  {id:"g41",c:"Diverse",q:"Il faut que tu ___ tes devoirs.",o:["fasses","fais","feras"],e:"Etter il faut que kommer subjonctif: que je fasse, que tu fasses …"},
  {id:"g42",c:"Diverse",q:"Les gens ___ très gentils ici.",o:["sont","est","es"],e:"Les gens er flertall → sont."}
 ];
+/* Utvidelse: [kategori, spørsmål, [riktig, feil, feil], forklaring] */
+const G2=[
+["Fortid","L'année dernière, nous ___ en Espagne pendant deux semaines.",["avons voyagé","voyagerons","voyageons"],"Avsluttet reise på et bestemt tidspunkt i fortiden → passé composé."],
+["Fortid","Quand il était jeune, mon père ___ au football tous les samedis.",["jouait","a joué","jouera"],"Vane i fortiden (tous les samedis) → imparfait."],
+["Fortid","Ce matin, ils ___ de la maison à huit heures.",["sont sortis","ont sortis","sont sorti"],"Sortir (gå ut) tar être. Subjektet er ils → sortis."],
+["Fortid","Je ___ en 2009.",["suis née","ai né","naissais"],"Naître tar être i passé composé: je suis né(e)."],
+["Fortid","Pendant que je ___, mon frère regardait la télé.",["faisais mes devoirs","ai fait mes devoirs","ferai mes devoirs"],"To ting som pågikk samtidig i fortiden → imparfait (pendant que …)."],
+["Fortid","Soudain, quelqu'un ___ à la porte.",["a frappé","frappait","frappe"],"Soudain / tout à coup = plutselig → én handling som skjer → passé composé."],
+["Fortid","Nous ___ le bus pendant vingt minutes.",["avons attendu","sommes attendus","attendrons"],"Attendre tar avoir. Pendant + avsluttet tidsrom → passé composé."],
+["Fortid","Mes parents ___ mariés en 1995.",["se sont","ont","s'ont"],"Se marier er refleksivt → être: ils se sont mariés."],
+["Fortid","Il ___ froid, alors j'ai mis un pull.",["faisait","fera","faire"],"Vær og beskrivelser i fortiden → imparfait (il faisait froid)."],
+["Fortid","Tu ___ venue à la fête ?",["es","as","a"],"Venir tar être: tu es venu(e)."],
+["Fortid","Nous ___ restés à la maison.",["sommes","avons","sont"],"Rester tar être: nous sommes restés."],
+["Fortid","Les filles ___ montées dans le train.",["sont","ont","est"],"Monter (gå opp/inn) tar être når det ikke har objekt. Les filles = elles → sont."],
+["Fortid","Elles sont ___ en vacances.",["parties","partis","parti"],"Med être bøyes partisippet: elles → -es: parties."],
+["Fortid","J'ai ___ un livre très intéressant.",["lu","lis","lire"],"Partisippet av lire er lu."],
+["Fortid","Vous avez ___ la lettre ?",["écrit","écrire","écrivé"],"Partisippet av écrire er écrit."],
+["Fortid","Ils ont ___ du café.",["bu","boivent","buvé"],"Partisippet av boire er bu."],
+["Fortid","Il a ___ la fenêtre.",["ouvert","ouvri","ouvré"],"Partisippet av ouvrir er ouvert."],
+["Fortid","J'ai ___ un cadeau pour mon anniversaire.",["reçu","recevu","reçoit"],"Partisippet av recevoir er reçu (med ç foran u)."],
+["Fortid","Quand je suis arrivé, le film ___ déjà commencé.",["avait","a","aura"],"Noe som skjedde før en annen handling i fortiden → plus-que-parfait (avoir/être i imparfait + partisipp)."],
+["Fortid","Elle était fatiguée parce qu'elle ___ mal dormi.",["avait","a","aurait"],"Hun hadde sovet dårlig (før hun var trøtt) → plus-que-parfait."],
+["Fortid","Nous ne savions pas qu'il ___ déjà parti.",["était","avait","a"],"Plus-que-parfait av partir: il était parti (être, fordi partir er et bevegelsesverb)."],
+["Framtid","Demain, il ___ beau.",["fera","ferait","faisait"],"Framtid → futur simple. Faire har stammen fer-."],
+["Framtid","L'année prochaine, j'___ 18 ans.",["aurai","aurais","avais"],"Futur simple av avoir: j'aurai. Uten -s! (j'aurais = conditionnel)."],
+["Framtid","Quand je ___ grand, je serai médecin.",["serai","suis","serais"],"Etter quand om framtid bruker fransk futur simple: quand je serai grand."],
+["Framtid","Nous ___ en France l'été prochain.",["irons","irions","allions"],"Futur simple av aller har stammen ir-: nous irons."],
+["Framtid","Ils ___ demain matin.",["partiront","partiraient","partaient"],"Futur simple: infinitiv + -ont."],
+["Framtid","Je ___ un café, s'il vous plaît.",["voudrais","voudra","voulu"],"Høflig bestilling → conditionnel: je voudrais."],
+["Framtid","À ta place, je ___ plus.",["travaillerais","travaillerai","travaillais"],"«Hvis jeg var deg» → conditionnel: je travaillerais."],
+["Framtid","Est-ce que tu ___ m'aider, s'il te plaît ? (høflig)",["pourrais","pourrait","pourriez"],"Conditionnel for høflighet. Tu → pourrais."],
+["Si-setninger","Si tu viens, nous ___ contents.",["serons","serions","étions"],"Si + présent → futur simple."],
+["Si-setninger","Si elle parlait français, elle ___ en France.",["habiterait","habitera","habitait"],"Si + imparfait → conditionnel."],
+["Si-setninger","Si nous avions le temps, nous ___ plus souvent.",["sortirions","sortirons","sortons"],"Si + imparfait → conditionnel."],
+["Si-setninger","S'il ___ beau demain, on ira à la plage.",["fait","ferait","fera"],"Etter si om framtid brukes présent, ikke futur: s'il fait beau."],
+["Si-setninger","Si j'___ riche, j'achèterais une maison.",["étais","serais","suis"],"Conditionnel i hovedsetningen → imparfait etter si."],
+["Refleksive verb","Le matin, je ___ à sept heures.",["me réveille","réveille","se réveille"],"Se réveiller: je me réveille."],
+["Refleksive verb","Nous ___ promenons dans le parc.",["nous","se","vous"],"Se promener: nous nous promenons."],
+["Refleksive verb","Elle ___ douchée.",["s'est","a","s'a"],"Refleksive verb tar être: elle s'est douchée."],
+["Refleksive verb","Vous ___ amusés à la fête ?",["vous êtes","avez","vous avez"],"S'amuser: vous vous êtes amusés."],
+["Refleksive verb","Ils ne ___ pas couchés tard.",["se sont","sont","s'ont"],"Nektelsen går rundt se + hjelpeverb: ils ne se sont pas couchés."],
+["Refleksive verb","Tu ___ habilles vite.",["t'","te","s'"],"S'habiller: tu t'habilles (te → t' foran vokal/stum h)."],
+["Refleksive verb","Je vais ___ coucher tôt ce soir.",["me","se","te"],"Med futur proche står pronomenet foran infinitiven og følger subjektet: je vais me coucher."],
+["Komparasjon","Paris est ___ grand que Lyon.",["plus","plus de","le plus"],"Plus + adjektiv + que = mer … enn."],
+["Komparasjon","Marie est ___ grande fille de la classe.",["la plus","plus","la plus de"],"Superlativ: la plus + adjektiv."],
+["Komparasjon","J'ai ___ livres que toi.",["plus de","plus","plus des"],"Med substantiv: plus de + substantiv."],
+["Komparasjon","Il court ___ que moi.",["mieux","meilleur","plus bien"],"Bien → mieux (adverb). Meilleur er adjektiv."],
+["Komparasjon","Elle est aussi gentille ___ sa sœur.",["que","comme","de"],"Aussi … que = like … som."],
+["Komparasjon","C'est le ___ jour de ma vie !",["meilleur","mieux","plus bon"],"Bon → le meilleur."],
+["Komparasjon","Le train est ___ cher que l'avion.",["moins","moins de","le moins"],"Moins + adjektiv + que = mindre … enn."],
+["Pronomen","Tu connais ces filles ? – Oui, je ___ connais.",["les","leur","la"],"Direkte objekt, flertall → les."],
+["Pronomen","Il a combien de frères ? – Il ___ a deux.",["en","y","les"],"En erstatter en mengde: il en a deux."],
+["Pronomen","Tu penses à ton examen ? – Oui, j'___ pense tout le temps.",["y","en","lui"],"Penser à + ting → y."],
+["Pronomen","Tu as vu Paul ? – Non, je ne ___ ai pas vu.",["l'","lui","le"],"Direkte objekt le blir l' foran vokal: je ne l'ai pas vu."],
+["Pronomen","Ce cadeau est pour ___ ! (deg)",["toi","te","tu"],"Etter preposisjon: moi, toi, lui, elle, nous, vous, eux, elles."],
+["Pronomen","J'ai donné mon numéro à Sophie. Je ___ ai donné mon numéro.",["lui","la","leur"],"Donner à quelqu'un → indirekte objekt: lui."],
+["Pronomen","Tu viens de la piscine ? – Oui, j'___ viens.",["en","y","le"],"Venir de + sted → en."],
+["Pronomen","Moi, j'aime le chocolat. Et ___ ?",["toi","tu","te"],"Trykksterkt pronomen alene: et toi ?"],
+["Pronomen","Mes grands-parents ? Je ___ téléphone chaque dimanche.",["leur","les","lui"],"Téléphoner à + flere personer → leur."],
+["Nektelse","Je ne fais ___ de sport. Jamais !",["jamais","rien","personne"],"Ne … jamais = aldri."],
+["Nektelse","Il ne dit ___. Il est très timide.",["rien","personne","plus"],"Ne … rien = ingenting."],
+["Nektelse","Je n'ai vu ___ à la fête. La salle était vide.",["personne","rien","jamais"],"Ne … personne = ingen. I passé composé står personne etter partisippet."],
+["Nektelse","Hva betyr «Je n'ai que dix euros» ?",["Jeg har bare ti euro","Jeg har ikke ti euro","Jeg har mer enn ti euro"],"Ne … que = bare/kun."],
+["Nektelse","Il ne ___ pas venir demain.",["peut","pas","peux"],"Il → peut. Ne … pas rundt det bøyde verbet."],
+["Nektelse","Je préfère ___ sortir ce soir.",["ne pas","pas","ne"],"Foran infinitiv står ne pas samlet: ne pas sortir."],
+["Nektelse","Elle ne mange pas ___ viande.",["de","de la","la"],"Etter nektelse: de (ikke de la/du/des)."],
+["Adjektiv","Mes amies sont très ___.",["gentilles","gentils","gentille"],"Amies er hunkjønn flertall → gentilles."],
+["Adjektiv","C'est une ___ idée.",["bonne","bon","bien"],"Idée er hunkjønn → bonne."],
+["Adjektiv","Ils habitent dans un ___ appartement.",["bel","beau","belle"],"Foran hankjønnsord med vokal: bel."],
+["Adjektiv","La soupe est ___.",["chaude","chaud","chauds"],"Soupe er hunkjønn → chaude."],
+["Adjektiv","Ce sont des chaussures ___.",["chères","chers","cher"],"Chaussures er hunkjønn flertall → chères."],
+["Adjektiv","C'est une ___ femme.",["vieille","vieux","vieil"],"Vieux → vieille i hunkjønn."],
+["Adjektiv","Les garçons sont ___.",["heureux","heureuses","heureuxs"],"Adjektiv på -x får ikke -s i flertall: heureux."],
+["Adjektiv","Ma grand-mère est très ___.",["active","actif","actives"],"Adjektiv på -if → -ive i hunkjønn."],
+["Relativ","Voici le garçon ___ j'ai rencontré hier.",["que","qui","dont"],"Que = objekt (j'ai rencontré le garçon)."],
+["Relativ","C'est le jour ___ je suis né.",["où","que","qui"],"Où brukes også om tid: le jour où …"],
+["Relativ","Le sport ___ je préfère, c'est le tennis.",["que","qui","où"],"Que = objekt (je préfère le sport)."],
+["Relativ","J'ai un ami ___ habite à Paris.",["qui","que","où"],"Qui = subjekt: qui habite."],
+["Relativ","Ce ___ j'aime, c'est voyager.",["que","qui","dont"],"Ce que = det som (objekt)."],
+["Relativ","Ce ___ est important, c'est la santé.",["qui","que","dont"],"Ce qui = det som (subjekt)."],
+["Relativ","Le professeur ___ je parle est sympa.",["dont","que","qui"],"Parler de quelqu'un → dont."],
+["Preposisjoner","Je dors ___ mon ami ce soir.",["chez","à","en"],"Chez = hjemme hos."],
+["Preposisjoner","Elle vient ___ Espagne.",["d'","de","du"],"Fra hunkjønnsland: de → d' foran vokal: d'Espagne."],
+["Preposisjoner","Je reviens ___ Danemark.",["du","de","d'"],"Fra hankjønnsland: du Danemark."],
+["Preposisjoner","Nous allons à Oslo ___ train.",["en","à","par"],"Kjøretøy man sitter inni: en train, en bus, en voiture."],
+["Preposisjoner","Le livre est ___ la table.",["sur","dans","à"],"Sur = på."],
+["Preposisjoner","J'habite ___ Bergen depuis dix ans.",["à","en","au"],"By → à."],
+["Preposisjoner","Il fait chaud ___ été.",["en","au","à"],"En été, en automne, en hiver – men au printemps."],
+["Preposisjoner","Mon anniversaire est ___ mai.",["en","au","à"],"Måneder: en mai (eller au mois de mai)."],
+["Preposisjoner","Je joue ___ guitare.",["de la","à la","la"],"Jouer de + instrument."],
+["Preposisjoner","On se voit ___ printemps.",["au","en","à"],"Au printemps (unntaket – de andre årstidene tar en)."],
+["Subjonctif","Il faut que nous ___ à l'heure.",["soyons","sommes","serons"],"Il faut que + subjonctif. Être: que nous soyons."],
+["Subjonctif","Je veux que tu ___ avec moi.",["viennes","viens","viendras"],"Vouloir que + subjonctif: que tu viennes."],
+["Subjonctif","Il faut qu'elle ___ ses devoirs.",["finisse","finit","finira"],"Subjonctif av finir: qu'elle finisse."],
+["Subjonctif","Je suis content que vous ___ là.",["soyez","êtes","serez"],"Følelse + que → subjonctif: que vous soyez."],
+["Subjonctif","Bien que ce ___ difficile, j'aime le français.",["soit","est","sera"],"Bien que (selv om) + subjonctif."],
+["Subjonctif","Il faut que tu ___ ce livre.",["lises","lis","liras"],"Subjonctif av lire: que tu lises."],
+["Subjonctif","Il faut que j'___ à la banque.",["aille","vais","irai"],"Subjonctif av aller: que j'aille."],
+["Diverse","Je ___ de finir mes devoirs.",["viens","vais","suis"],"Venir de + infinitiv = ha nettopp gjort noe."],
+["Diverse","Il y a beaucoup ___ monde ici.",["de","du","des"],"Etter mengdeord (beaucoup, peu, trop) → de."],
+["Diverse","Elle aime ___ chocolat.",["le","du","de"],"Etter aimer, adorer, détester brukes bestemt artikkel: le chocolat."],
+["Diverse","Combien ___ frères as-tu ?",["de","des","les"],"Combien de + substantiv."],
+["Diverse","Je suis en train ___ manger.",["de","à","pour"],"Être en train de = holde på med."],
+["Diverse","J'ai mal ___ tête.",["à la","la","de la"],"Avoir mal à + kroppsdel: j'ai mal à la tête."],
+["Diverse","___ fille est très gentille.",["Cette","Ce","Cet"],"Hunkjønn → cette."],
+["Diverse","___ homme est mon professeur.",["Cet","Ce","Cette"],"Hankjønn foran vokal/stum h → cet."],
+["Diverse","___ livres sont à moi.",["Ces","Ce","Cet"],"Flertall → ces."],
+["Diverse","Il ___ beau aujourd'hui.",["fait","est","a"],"Vær: il fait beau, il fait froid."],
+["Diverse","J'___ froid.",["ai","suis","fais"],"Avoir froid / chaud / faim / soif / peur."],
+["Diverse","Tu as quel âge ? – J'___ seize ans.",["ai","suis","a"],"Alder med avoir: j'ai seize ans."],
+["Diverse","On ___ au cinéma ce soir ?",["va","vont","allons"],"On bøyes som il/elle: on va."],
+["Diverse","Ma mère est ___.",["infirmière","une infirmière","l'infirmière"],"Yrke etter être står uten artikkel: elle est infirmière."],
+["Diverse","Demain, je vais rendre visite ___ mes grands-parents.",["à","chez","de"],"Rendre visite à + person. (Visiter brukes om steder.)"]
+];
+G.push(...G2.map((x,i)=>({id:"h"+(i+1),c:x[0],q:x[1],o:x[2],e:x[3]})));
 const GCATS=["Alle",...new Set(G.map(x=>x.c))];
 let gCat="Alle";
 
@@ -407,6 +544,118 @@ const R=[
   {q:"«On pourrait sauver des tonnes de nourriture» – hvilken verbform er «pourrait»?",o:["Conditionnel","Futur simple","Imparfait"],e:"Si + imparfait (faisait) → conditionnel (pourrait). Endelsen -ait på futur-stammen pourr- gir conditionnel."}
  ]}
 ];
+R.push(
+ {id:"r4",t:"Une journée au lycée en France",tema:"Skole",txt:[
+ "Chloé a seize ans et elle est en première dans un lycée à Bordeaux. Ses journées sont longues : les cours commencent à huit heures et finissent souvent à dix-sept heures. À midi, elle mange à la cantine avec ses amis. Le mercredi après-midi, elle n'a pas cours, alors elle fait de la natation.",
+ "Chloé trouve que le système français est assez strict. Les élèves ont beaucoup de devoirs et les notes sont sur vingt. « Avoir quatorze sur vingt, c'est déjà très bien ! » explique-t-elle.",
+ "L'année prochaine, elle passera le baccalauréat, l'examen important à la fin du lycée. Elle est un peu stressée, mais elle a un plan : elle va étudier un peu chaque jour au lieu de tout faire la dernière semaine. Plus tard, elle voudrait devenir vétérinaire, parce qu'elle adore les animaux."],
+ gl:[["en première","på nest siste trinn i videregående"],["les devoirs","leksene"],["les notes","karakterene"],["passer un examen","å ta en eksamen"],["au lieu de","i stedet for"],["un vétérinaire","en veterinær"]],
+ q:[
+  {q:"Når begynner og slutter skoledagen til Chloé?",o:["Kl. 8 og ofte kl. 17","Kl. 9 og kl. 15","Kl. 8 og kl. 12"],e:"«les cours commencent à huit heures et finissent souvent à dix-sept heures»."},
+  {q:"Hva gjør hun onsdag ettermiddag?",o:["Hun svømmer","Hun har matte","Hun jobber i kantina"],e:"«elle n'a pas cours, alors elle fait de la natation»."},
+  {q:"Hvordan gis karakterer i Frankrike ifølge teksten?",o:["Fra 0 til 20","Fra 1 til 6","Med bokstaver"],e:"«les notes sont sur vingt»."},
+  {q:"Hva er planen hennes før eksamen?",o:["Lese litt hver dag","Lese alt den siste uka","Ta privattimer"],e:"«étudier un peu chaque jour au lieu de tout faire la dernière semaine»."},
+  {q:"Hva vil Chloé bli?",o:["Veterinær","Lærer","Lege"],e:"«elle voudrait devenir vétérinaire»."},
+  {q:"«Elle passera le baccalauréat» – hvilken tid er «passera»?",o:["Futur simple","Conditionnel","Imparfait"],e:"Infinitiv passer + -a = futur simple."}
+ ]},
+ {id:"r5",t:"Mon premier job d'été",tema:"Jobb",txt:[
+ "L'été dernier, Hugo a travaillé dans un café au bord de la mer, en Bretagne. C'était son premier job. Il devait se lever à six heures pour préparer le café et les croissants avant l'arrivée des clients.",
+ "Au début, c'était dur. Il était fatigué et il oubliait souvent les commandes. Un jour, il a fait tomber un plateau avec six verres ! Mais sa patronne, Madame Le Goff, était patiente. Elle lui a dit : « Ce n'est pas grave. Tout le monde fait des erreurs au début. »",
+ "Petit à petit, Hugo a appris à travailler plus vite. Il parlait avec les touristes, il servait les clients avec le sourire et il recevait beaucoup de pourboires. Avec l'argent qu'il a gagné, il a acheté un vélo électrique.",
+ "« J'ai appris à être responsable et à travailler en équipe, dit Hugo. Je recommande à tous les jeunes de trouver un job d'été. »"],
+ gl:[["au bord de la mer","ved sjøen"],["les commandes","bestillingene"],["faire tomber","å miste (i bakken)"],["un plateau","et brett"],["la patronne","sjefen (kvinne)"],["les pourboires","tipsen"],["gagner de l'argent","å tjene penger"]],
+ q:[
+  {q:"Hvor jobbet Hugo?",o:["På en kafé ved sjøen i Bretagne","I en butikk i Paris","På et hotell i fjellet"],e:"«dans un café au bord de la mer, en Bretagne»."},
+  {q:"Hvorfor måtte han stå opp klokka seks?",o:["For å lage kaffe og croissanter før kundene kom","For å ta bussen","For å trene"],e:"«pour préparer le café et les croissants avant l'arrivée des clients»."},
+  {q:"Hva skjedde en dag?",o:["Han mistet et brett med seks glass","Han kom for sent","Han ble syk"],e:"«il a fait tomber un plateau avec six verres»."},
+  {q:"Hvordan reagerte sjefen?",o:["Hun var tålmodig og sa at det ikke var så farlig","Hun ble sint","Hun sa ham opp"],e:"«était patiente … Ce n'est pas grave»."},
+  {q:"Hva kjøpte han for pengene?",o:["En elsykkel","En telefon","En bil"],e:"«il a acheté un vélo électrique»."},
+  {q:"Hvorfor står «il oubliait» i imparfait?",o:["Det skjedde ofte/gjentatte ganger","Det skjedde én gang","Det skal skje"],e:"«souvent» = noe som gjentok seg → imparfait."}
+ ]},
+ {id:"r6",t:"Le sport, c'est la santé ?",tema:"Helse og fritid",txt:[
+ "Selon beaucoup de médecins, les jeunes ne bougent pas assez. Ils passent de longues heures assis : à l'école, devant l'ordinateur ou sur leur téléphone.",
+ "Yasmine, quinze ans, n'aimait pas le sport. « À l'école, j'étais toujours la dernière à courir, et les autres riaient de moi », raconte-t-elle. Il y a un an, une amie l'a invitée à un cours de danse hip-hop. Yasmine a hésité, mais elle a dit oui.",
+ "Aujourd'hui, elle danse trois fois par semaine. « Ce n'est pas une compétition. On s'amuse, on écoute de la musique et on oublie le stress. » Elle dort mieux et elle se sent plus forte.",
+ "Son conseil ? « Ne choisissez pas un sport parce que c'est à la mode. Choisissez une activité qui vous fait plaisir. Si on aime ce qu'on fait, on continue. »"],
+ gl:[["bouger","å bevege seg"],["assis","sittende"],["rire de quelqu'un","å le av noen"],["hésiter","å nøle"],["se sentir","å føle seg"],["à la mode","moderne / populært"]],
+ q:[
+  {q:"Hva er problemet ifølge mange leger?",o:["Unge beveger seg for lite","Unge trener for mye","Unge spiser for lite"],e:"«les jeunes ne bougent pas assez»."},
+  {q:"Hvorfor likte ikke Yasmine sport?",o:["Hun var alltid sist, og de andre lo av henne","Hun var ofte skadet","Hun hadde ikke tid"],e:"«j'étais toujours la dernière à courir, et les autres riaient de moi»."},
+  {q:"Hvordan begynte hun å danse?",o:["En venninne inviterte henne","Læreren tvang henne","Moren meldte henne på"],e:"«une amie l'a invitée à un cours de danse hip-hop»."},
+  {q:"Hvor ofte danser hun nå?",o:["Tre ganger i uka","Hver dag","En gang i måneden"],e:"«trois fois par semaine»."},
+  {q:"Hva er rådet hennes?",o:["Velg en aktivitet du liker","Velg den mest populære sporten","Tren hver dag"],e:"«Choisissez une activité qui vous fait plaisir»."},
+  {q:"Hva betyr «Yasmine a hésité» ?",o:["Yasmine nølte","Yasmine lo","Yasmine løp"],e:"Hésiter = å nøle."}
+ ]},
+ {id:"r7",t:"Vivre à la campagne ou en ville ?",tema:"Bolig og familie",txt:[
+ "Thomas et sa sœur Léa ne sont pas d'accord. Leur famille va déménager l'année prochaine, et les parents hésitent entre un appartement à Lille et une maison dans un petit village.",
+ "Thomas, dix-sept ans, préfère la ville. « En ville, il y a des cinémas, des concerts et des magasins. On peut tout faire à pied ou en métro. À la campagne, je m'ennuierais ! »",
+ "Léa, quatorze ans, rêve de la campagne. « Je voudrais avoir un jardin et un chien. En ville, il y a trop de bruit et de pollution. À la campagne, l'air est pur et c'est plus calme. »",
+ "Les parents, eux, pensent au prix. Une maison à la campagne est souvent moins chère qu'un appartement en ville, mais il faut une voiture pour aller au travail. Pour l'instant, la famille n'a pas encore pris de décision."],
+ gl:[["déménager","å flytte"],["à pied","til fots"],["s'ennuyer","å kjede seg"],["rêver de","å drømme om"],["le bruit","støyen"],["pour l'instant","foreløpig"]],
+ q:[
+  {q:"Hva er Thomas og Léa uenige om?",o:["Hvor familien skal flytte","Hvilken skole de skal gå på","Hvilket dyr de skal kjøpe"],e:"Foreldrene vurderer en leilighet i Lille eller et hus i en landsby."},
+  {q:"Hvorfor vil Thomas bo i byen?",o:["Det er kino, konserter og butikker, og man kan gå eller ta metro","Han vil ha hage","Det er billigere"],e:"«il y a des cinémas, des concerts et des magasins. On peut tout faire à pied ou en métro»."},
+  {q:"Hva drømmer Léa om?",o:["En hage og en hund","En stor leilighet","Å gå på konsert"],e:"«Je voudrais avoir un jardin et un chien»."},
+  {q:"Hvilken ulempe med å bo på landet nevner foreldrene?",o:["De trenger bil for å komme seg på jobb","Huset er dyrere","Det er mye støy"],e:"«il faut une voiture pour aller au travail»."},
+  {q:"Har familien bestemt seg?",o:["Nei, ikke ennå","Ja, de flytter til Lille","Ja, de flytter på landet"],e:"«la famille n'a pas encore pris de décision»."},
+  {q:"«À la campagne, je m'ennuierais» – hva betyr det?",o:["På landet ville jeg kjedet meg","På landet kjeder jeg meg","På landet kjedet jeg meg"],e:"M'ennuierais er conditionnel → «ville kjedet meg»."}
+ ]},
+ {id:"r8",t:"Le français en Afrique : le Sénégal",tema:"Den fransktalende verden",txt:[
+ "On parle français sur les cinq continents. En Afrique, il y a beaucoup de pays francophones, par exemple le Sénégal, en Afrique de l'Ouest.",
+ "Awa a dix-huit ans et elle habite à Dakar, la capitale. À l'école, tous ses cours sont en français, mais à la maison, elle parle wolof avec sa famille. « Je passe d'une langue à l'autre sans y penser, dit-elle. Parfois, je mélange les deux dans la même phrase ! »",
+ "Le week-end, Awa aime aller au marché avec sa mère. Il y a beaucoup de couleurs, de bruit et de bonnes odeurs. Son plat préféré est le thiéboudienne, du riz avec du poisson et des légumes.",
+ "Après le bac, Awa voudrait étudier l'informatique. « Je rêve de créer une application pour aider les petits commerçants du marché à vendre leurs produits en ligne. »"],
+ gl:[["francophone","fransktalende"],["mélanger","å blande"],["une odeur","en lukt"],["l'informatique","IT / informatikk"],["un commerçant","en handelsmann / kjøpmann"],["en ligne","på nett"]],
+ q:[
+  {q:"Hvor ligger Senegal?",o:["I Vest-Afrika","I Nord-Afrika","I Øst-Afrika"],e:"«le Sénégal, en Afrique de l'Ouest»."},
+  {q:"Hvilke språk bruker Awa?",o:["Fransk på skolen og wolof hjemme","Bare fransk","Engelsk og fransk"],e:"«À l'école, tous ses cours sont en français, mais à la maison, elle parle wolof»."},
+  {q:"Hva gjør hun i helgene?",o:["Går på markedet med moren","Jobber på en kafé","Spiller fotball"],e:"«Awa aime aller au marché avec sa mère»."},
+  {q:"Hva er thiéboudienne?",o:["Ris med fisk og grønnsaker","En type kake","En dans"],e:"«du riz avec du poisson et des légumes»."},
+  {q:"Hva drømmer Awa om?",o:["Å lage en app for småhandlere på markedet","Å flytte til Frankrike","Å åpne en restaurant"],e:"«créer une application pour aider les petits commerçants du marché»."},
+  {q:"Vrai ou faux: Awa blander noen ganger språkene i samme setning.",o:["Vrai","Faux"],e:"«Parfois, je mélange les deux dans la même phrase !»"}
+ ]},
+ {id:"r9",t:"L'intelligence artificielle à l'école",tema:"Teknologi",txt:[
+ "Depuis quelques années, de plus en plus d'élèves utilisent l'intelligence artificielle pour faire leurs devoirs. C'est pratique : on pose une question et on reçoit une réponse en quelques secondes.",
+ "Mais les professeurs sont inquiets. « Si un élève copie un texte de l'IA, il n'apprend rien, explique Monsieur Martin, professeur de français. Et à l'examen, il n'aura pas d'ordinateur pour l'aider. »",
+ "Certains élèves sont d'accord. Sofia, dix-sept ans, utilise l'IA d'une autre façon. « Je n'utilise jamais l'IA pour écrire mes textes. J'écris d'abord moi-même, et après, je demande à l'IA de m'expliquer mes erreurs. Comme ça, je comprends mieux la grammaire. »",
+ "Pour Monsieur Martin, c'est la bonne méthode. « L'IA est un outil. Elle peut aider, mais elle ne peut pas apprendre à ta place. »"],
+ gl:[["de plus en plus","stadig flere / mer og mer"],["inquiet / inquiète","bekymret"],["d'une autre façon","på en annen måte"],["d'abord","først"],["un outil","et verktøy"],["à ta place","i stedet for deg"]],
+ q:[
+  {q:"Hvorfor bruker mange elever KI?",o:["Det er praktisk og gir raske svar","Læreren krever det","Det er gratis bøker"],e:"«C'est pratique : on pose une question et on reçoit une réponse en quelques secondes»."},
+  {q:"Hvorfor er lærerne bekymret?",o:["Elever som kopierer lærer ingenting","KI er for dyrt","KI er forbudt"],e:"«Si un élève copie un texte de l'IA, il n'apprend rien»."},
+  {q:"Hvordan bruker Sofia KI?",o:["Hun skriver selv først og ber KI forklare feilene","Hun lar KI skrive tekstene","Hun bruker ikke KI i det hele tatt"],e:"«J'écris d'abord moi-même, et après, je demande à l'IA de m'expliquer mes erreurs»."},
+  {q:"Hva mener Monsieur Martin om KI?",o:["Det er et verktøy, men det kan ikke lære for deg","Det bør forbys","Det er bedre enn lærere"],e:"«L'IA est un outil … elle ne peut pas apprendre à ta place»."},
+  {q:"«Il n'aura pas d'ordinateur» – hvorfor står det «d'» og ikke «un» ?",o:["Etter nektelse blir un/une/des til de/d'","Fordi ordinateur er hunkjønn","Fordi det er flertall"],e:"Ne … pas + de: il n'aura pas d'ordinateur."}
+ ]},
+ {id:"r10",t:"Noël en famille",tema:"Høytider og tradisjoner",txt:[
+ "En France, Noël est une fête très importante. Le 24 décembre au soir, beaucoup de familles se retrouvent pour le réveillon, un long repas qui peut durer plusieurs heures.",
+ "Chez Manon, toute la famille vient : les grands-parents, les oncles, les tantes et les cousins. Cette année, ils étaient quinze à table ! On a mangé des huîtres, de la dinde et, comme dessert, une bûche de Noël, un gâteau en forme de morceau de bois.",
+ "Après le repas, les enfants ont ouvert leurs cadeaux. Manon a reçu un livre et des écouteurs. Son petit cousin était tellement content de son jouet qu'il a dansé dans le salon.",
+ "« Ce que je préfère, ce ne sont pas les cadeaux, dit Manon. C'est le moment où on est tous ensemble. Pendant l'année, on ne se voit pas souvent. »"],
+ gl:[["se retrouver","å møtes"],["un repas","et måltid"],["les huîtres","østersen"],["la dinde","kalkunen"],["un morceau de bois","et stykke tre / en vedkubbe"],["les écouteurs","øretelefonene"],["un jouet","en leke"]],
+ q:[
+  {q:"Hva er «le réveillon»?",o:["Et langt måltid på julaften","En julegudstjeneste","En julegave"],e:"«un long repas qui peut durer plusieurs heures» den 24. desember om kvelden."},
+  {q:"Hvor mange satt ved bordet hos Manon i år?",o:["15","5","50"],e:"«ils étaient quinze à table» – quinze = 15."},
+  {q:"Hva er en «bûche de Noël»?",o:["En kake formet som en vedkubbe","En type fisk","En julesang"],e:"«un gâteau en forme de morceau de bois»."},
+  {q:"Hva fikk Manon?",o:["En bok og øretelefoner","En telefon","Klær"],e:"«Manon a reçu un livre et des écouteurs»."},
+  {q:"Hva liker Manon best med julen?",o:["At hele familien er samlet","Gavene","Maten"],e:"«C'est le moment où on est tous ensemble»."},
+  {q:"«Ce que je préfère» – hva betyr «ce que»?",o:["Det som","Hvorfor","Når"],e:"Ce que = det som (objekt)."}
+ ]},
+ {id:"r11",t:"Voyager sans avion",tema:"Reise og miljø",txt:[
+ "Ingrid et Martin, deux étudiants norvégiens, ont décidé de voyager d'Oslo à Paris sans prendre l'avion. Ils voulaient montrer qu'on peut voyager de façon plus écologique.",
+ "Ils ont pris le train d'Oslo à Copenhague, puis jusqu'à Hambourg, et enfin jusqu'à Paris. Le voyage a duré deux jours, avec une nuit à Hambourg. « C'était plus long et un peu plus cher que l'avion, avoue Ingrid, mais on a vu des paysages magnifiques et on a rencontré des gens sympas. »",
+ "Dans le train, ils ont lu, joué aux cartes et regardé par la fenêtre. Martin a même commencé à écrire un blog sur leur voyage.",
+ "Arrivés à Paris, ils étaient fatigués mais heureux. « Le voyage fait partie des vacances, dit Martin. La prochaine fois, nous irons en Italie, toujours en train ! »"],
+ gl:[["écologique","miljøvennlig"],["durer","å vare"],["avouer","å innrømme"],["un paysage","et landskap"],["faire partie de","å være en del av"],["toujours","fortsatt / alltid"]],
+ q:[
+  {q:"Hvorfor reiste de uten fly?",o:["For å vise at man kan reise mer miljøvennlig","Fordi flyet var fullt","Fordi de er redde for å fly"],e:"«Ils voulaient montrer qu'on peut voyager de façon plus écologique»."},
+  {q:"Hvilken rute tok de?",o:["Oslo – København – Hamburg – Paris","Oslo – Stockholm – Berlin – Paris","Oslo – London – Paris"],e:"«d'Oslo à Copenhague, puis jusqu'à Hambourg, et enfin jusqu'à Paris»."},
+  {q:"Hva var ulempene ifølge Ingrid?",o:["Det tok lengre tid og var litt dyrere","Toget var skittent","De ble syke"],e:"«C'était plus long et un peu plus cher que l'avion»."},
+  {q:"Hva gjorde Martin på toget?",o:["Begynte å skrive en blogg","Sov hele tiden","Jobbet"],e:"«Martin a même commencé à écrire un blog»."},
+  {q:"Hvor vil de reise neste gang?",o:["Til Italia med tog","Til Spania med fly","Hjem til Norge"],e:"«La prochaine fois, nous irons en Italie, toujours en train !»"},
+  {q:"«Nous irons» – hvilket verb og hvilken tid?",o:["Aller, futur simple","Être, conditionnel","Avoir, futur simple"],e:"Aller har stammen ir- i futur: nous irons."}
+ ]}
+);
 let rSel=0;
 function viewRead(root){
   const box=$(`<section class="view"></section>`);
@@ -450,6 +699,66 @@ const FIX=[
  {id:"f11",q:"Si j'aurais de l'argent, j'achèterais une voiture.",o:["Si j'avais de l'argent, j'achèterais une voiture.","Si j'ai de l'argent, j'achèterais une voiture.","Si j'aurai de l'argent, j'achèterais une voiture."],e:"Aldri conditionnel etter si. Si + imparfait → conditionnel."},
  {id:"f12",q:"J'habite à Oslo depuis deux ans passés.",o:["J'habite à Oslo depuis deux ans.","J'habite à Oslo il y a deux ans.","J'habite à Oslo pendant deux ans."],e:"Depuis + tidsrom, med présent, for noe som fortsatt pågår."}
 ];
+BUILD.push(
+ ["Mon frère est plus âgé que moi.","Broren min er eldre enn meg."],
+ ["Nous habitons dans une petite maison près de la mer.","Vi bor i et lite hus nær havet."],
+ ["Elle s'est levée tôt pour aller au travail.","Hun sto opp tidlig for å dra på jobb."],
+ ["Je n'ai jamais mangé d'escargots.","Jeg har aldri spist snegler."],
+ ["Quand il pleut, je reste à la maison.","Når det regner, blir jeg hjemme."],
+ ["Il y a deux ans, j'ai visité Paris avec ma famille.","For to år siden besøkte jeg Paris med familien min."],
+ ["Je voudrais travailler dans un hôpital plus tard.","Jeg vil gjerne jobbe på et sykehus senere."],
+ ["Les réseaux sociaux peuvent être dangereux pour les jeunes.","Sosiale medier kan være farlige for unge."],
+ ["D'un côté, c'est pratique, mais de l'autre, c'est cher.","På den ene siden er det praktisk, men på den andre er det dyrt."],
+ ["Mes parents ne me laissent pas sortir le soir.","Foreldrene mine lar meg ikke gå ut om kvelden."],
+ ["Nous sommes partis en vacances au mois de juillet.","Vi dro på ferie i juli."],
+ ["Je pense qu'il faut protéger l'environnement.","Jeg mener at vi må beskytte miljøet."],
+ ["Il faisait froid, alors j'ai mis mon manteau.","Det var kaldt, så jeg tok på meg kåpen."],
+ ["Le samedi, je fais du sport avec mes amis.","På lørdager trener jeg med vennene mine."],
+ ["Elle a acheté une robe rouge pour la fête.","Hun kjøpte en rød kjole til festen."],
+ ["Si j'étais riche, je voyagerais partout dans le monde.","Hvis jeg var rik, ville jeg reist overalt i verden."],
+ ["Je lui ai donné un cadeau pour son anniversaire.","Jeg ga ham en gave til bursdagen hans."],
+ ["Nous allons manger au restaurant ce soir.","Vi skal spise på restaurant i kveld."],
+ ["Je viens de finir mes devoirs.","Jeg har nettopp gjort ferdig leksene."],
+ ["La ville où j'habite est très jolie.","Byen der jeg bor, er veldig fin."],
+ ["Il est important de dormir huit heures par nuit.","Det er viktig å sove åtte timer per natt."],
+ ["Pour conclure, je dirais que l'école est utile.","For å konkludere vil jeg si at skolen er nyttig."],
+ ["Elles sont arrivées à la gare à midi.","De (jentene) kom til stasjonen klokka tolv."],
+ ["Mon meilleur ami s'appelle Jonas.","Bestekameraten min heter Jonas."],
+ ["Je ne regarde plus la télé le soir.","Jeg ser ikke lenger på TV om kvelden."],
+ ["Depuis trois ans, j'apprends à jouer de la guitare.","I tre år har jeg lært å spille gitar."],
+ ["En hiver, il fait souvent froid en Norvège.","Om vinteren er det ofte kaldt i Norge."],
+ ["Est-ce que tu peux m'aider, s'il te plaît ?","Kan du hjelpe meg?"]
+);
+FIX.push(
+ {id:"f13",q:"Il a 17 ans et il est très grande.",o:["Il a 17 ans et il est très grand.","Il a 17 ans et il est très grands.","Il a 17 ans et il est très grandes."],e:"Il → hankjønn entall: grand."},
+ {id:"f14",q:"Nous sommes allé au concert.",o:["Nous sommes allés au concert.","Nous avons allé au concert.","Nous sommes aller au concert."],e:"Med être bøyes partisippet: nous → allés."},
+ {id:"f15",q:"Je suis 16 ans.",o:["J'ai 16 ans.","Je suis à 16 ans.","Je fais 16 ans."],e:"Alder uttrykkes med avoir."},
+ {id:"f16",q:"Elle a mangé beaucoup des fruits.",o:["Elle a mangé beaucoup de fruits.","Elle a mangé beaucoup les fruits.","Elle a mangé beaucoup du fruits."],e:"Beaucoup de + substantiv."},
+ {id:"f17",q:"Je vais au Norvège cet été.",o:["Je vais en Norvège cet été.","Je vais à Norvège cet été.","Je vais aux Norvège cet été."],e:"Norvège er hunkjønn → en Norvège."},
+ {id:"f18",q:"Les enfants joue dans le jardin.",o:["Les enfants jouent dans le jardin.","Les enfants joues dans le jardin.","Les enfants jouez dans le jardin."],e:"Ils/elles → -ent."},
+ {id:"f19",q:"Nous allons à le parc.",o:["Nous allons au parc.","Nous allons à la parc.","Nous allons aux parc."],e:"À + le = au."},
+ {id:"f20",q:"Mon père est un médecin.",o:["Mon père est médecin.","Mon père est le médecin.","Mon père est du médecin."],e:"Yrke etter être står uten artikkel."},
+ {id:"f21",q:"Je n'ai pas des frères.",o:["Je n'ai pas de frères.","Je n'ai pas les frères.","Je n'ai des frères pas."],e:"Etter nektelse: de."},
+ {id:"f22",q:"Hier, je mange une pizza.",o:["Hier, j'ai mangé une pizza.","Hier, je mangerai une pizza.","Hier, j'ai manger une pizza."],e:"Hier → fortid, avsluttet handling → passé composé."},
+ {id:"f23",q:"Quand j'ai été petit, j'habitais à Oslo.",o:["Quand j'étais petit, j'habitais à Oslo.","Quand je suis petit, j'habitais à Oslo.","Quand j'avais petit, j'habitais à Oslo."],e:"Beskrivelse av hvordan noe var → imparfait: quand j'étais petit."},
+ {id:"f24",q:"Elle est partie à 8 heures et elle a arrivée à 9 heures.",o:["Elle est partie à 8 heures et elle est arrivée à 9 heures.","Elle a partie à 8 heures et elle est arrivée à 9 heures.","Elle est partie à 8 heures et elle a arrivé à 9 heures."],e:"Arriver tar être."},
+ {id:"f25",q:"Je pense que c'est un bon idée.",o:["Je pense que c'est une bonne idée.","Je pense que c'est un bonne idée.","Je pense que c'est une bon idée."],e:"Idée er hunkjønn: une bonne idée."},
+ {id:"f26",q:"Nous avons vu une film.",o:["Nous avons vu un film.","Nous avons vu la film.","Nous avons vus un film."],e:"Film er hankjønn: un film."},
+ {id:"f27",q:"Mon sœur s'appelle Ida.",o:["Ma sœur s'appelle Ida.","Mes sœur s'appelle Ida.","Ma sœur s'appelles Ida."],e:"Sœur er hunkjønn og begynner med konsonant → ma."},
+ {id:"f28",q:"Il y a beaucoup de gens qui pense que c'est dangereux.",o:["Il y a beaucoup de gens qui pensent que c'est dangereux.","Il y a beaucoup de gens que pense que c'est dangereux.","Il y a beaucoup de gens qui penses que c'est dangereux."],e:"Gens er flertall → pensent."},
+ {id:"f29",q:"Je veux que tu viens.",o:["Je veux que tu viennes.","Je veux que tu viendras.","Je veux que tu venir."],e:"Vouloir que + subjonctif."},
+ {id:"f30",q:"Demain, je vais visiter mes grands-parents.",o:["Demain, je vais rendre visite à mes grands-parents.","Demain, je vais visiter à mes grands-parents.","Demain, je vais rendre visite mes grands-parents."],e:"Visiter brukes om steder. Om personer: rendre visite à."},
+ {id:"f31",q:"Elle s'a couchée tard.",o:["Elle s'est couchée tard.","Elle a couchée tard.","Elle s'est couché tard."],e:"Refleksive verb tar être, og partisippet får -e (elle)."},
+ {id:"f32",q:"Je suis allé en Paris.",o:["Je suis allé à Paris.","Je suis allé au Paris.","Je suis allé dans Paris."],e:"By → à."},
+ {id:"f33",q:"C'est le film que je t'ai parlé.",o:["C'est le film dont je t'ai parlé.","C'est le film qui je t'ai parlé.","C'est le film où je t'ai parlé."],e:"Parler de → dont."},
+ {id:"f34",q:"Si j'ai le temps, j'irais au cinéma.",o:["Si j'ai le temps, j'irai au cinéma.","Si j'aurai le temps, j'irai au cinéma.","Si j'ai le temps, j'allais au cinéma."],e:"Si + présent → futur simple."},
+ {id:"f35",q:"Paul ? Je lui ai vu hier.",o:["Paul ? Je l'ai vu hier.","Paul ? Je le ai vu hier.","Paul ? Je lui ai vus hier."],e:"Voir quelqu'un = direkte objekt → le (l' foran vokal)."},
+ {id:"f36",q:"Ils sont très contents de les vacances.",o:["Ils sont très contents des vacances.","Ils sont très contents du vacances.","Ils sont très contents de vacances."],e:"De + les = des."},
+ {id:"f37",q:"J'étudie français depuis trois ans.",o:["J'étudie le français depuis trois ans.","J'étudie du français depuis trois ans.","J'étudie la français depuis trois ans."],e:"Språk er hankjønn og tar bestemt artikkel: le français."},
+ {id:"f38",q:"Elle a les yeux bleues.",o:["Elle a les yeux bleus.","Elle a les yeux bleue.","Elle a la yeux bleus."],e:"Yeux er hankjønn flertall → bleus."},
+ {id:"f39",q:"Je suis intéressée de la musique.",o:["Je suis intéressée par la musique.","Je suis intéressée à la musique.","Je suis intéressée pour la musique."],e:"Être intéressé(e) par."},
+ {id:"f40",q:"Il faut que je fais mes devoirs.",o:["Il faut que je fasse mes devoirs.","Il faut que je ferai mes devoirs.","Il faut que je faire mes devoirs."],e:"Il faut que + subjonctif: que je fasse."}
+);
 const PHR=[
  ["Struktur","D'abord","Først"],["Struktur","Ensuite","Deretter"],["Struktur","Puis","Så"],["Struktur","Enfin","Til slutt"],["Struktur","Pour conclure","For å konkludere / Til slutt"],
  ["Mening","À mon avis","Etter min mening"],["Mening","Je pense que …","Jeg tror/synes at …"],["Mening","Je trouve que …","Jeg synes at …"],["Mening","Selon moi","Ifølge meg"],["Mening","Je suis d'accord avec …","Jeg er enig med …"],["Mening","Je ne suis pas d'accord","Jeg er ikke enig"],
@@ -457,12 +766,221 @@ const PHR=[
  ["Tid","Hier","I går"],["Tid","L'année dernière","I fjor"],["Tid","Il y a deux ans","For to år siden"],["Tid","Depuis trois ans","I tre år (og fortsatt)"],["Tid","Pendant les vacances","I løpet av ferien"],["Tid","Demain","I morgen"],["Tid","L'année prochaine","Neste år"],["Tid","Quand j'étais petit(e)","Da jeg var liten"]
 ];
 const CHECK=["Har jeg svart på det oppgaven faktisk spør om?","Har teksten innledning, hoveddel og avslutning?","Bruker jeg bindeord (d'abord, ensuite, parce que, donc, cependant)?","Har jeg brukt både présent, passé composé/imparfait og en framtidsform?","Riktig hjelpeverb i passé composé – être for bevegelsesverb og refleksive verb?","Stemmer verbet med subjektet (ils sont, nous avons …)?","Er adjektivene bøyd i kjønn og tall?","Har jeg ne … pas rundt verbet (og hjelpeverbet)?","Riktig artikkel etter nektelse (pas de)?","Har jeg sjekket aksentene (é, è, à, ç)?"];
-let wTab="bygg";
+const TASKS=[
+{t:"Présente-toi",no:"Du skal på utveksling til Frankrike. Skriv en presentasjon av deg selv til en ny fransk venn: hvem du er, familien, skolen, fritiden og planene dine.",st:["Navn, alder, hvor du bor","Familie (og kjæledyr)","Skole og favorittfag","Fritid og interesser","Planer for framtiden"],fr:["Je m'appelle … et j'ai … ans.","J'habite à …, une ville …","Mes matières préférées sont …","Pendant mon temps libre, je …","Plus tard, je voudrais …"],gr:"Présent, futur proche, conditionnel (je voudrais)",
+m:`Bonjour ! Je m'appelle Ida et j'ai dix-sept ans. J'habite à Bergen, une ville sur la côte ouest de la Norvège. Il pleut beaucoup ici, mais la ville est très belle, avec des montagnes et la mer.
+
+J'habite avec ma mère, mon beau-père et mon petit frère, qui a douze ans. Nous avons aussi un chat qui s'appelle Milo. Il est paresseux, mais très mignon.
+
+Je suis en deuxième année au lycée. Mes matières préférées sont l'anglais et la biologie. Par contre, je trouve les maths difficiles.
+
+Pendant mon temps libre, je fais du handball deux fois par semaine et je sors avec mes amis. Le week-end, j'aime regarder des séries et cuisiner.
+
+Plus tard, je voudrais travailler comme infirmière, parce que j'aime aider les autres. L'été prochain, je vais travailler dans un supermarché pour gagner de l'argent.
+
+Et toi ? Parle-moi un peu de toi !`},
+{t:"Mes dernières vacances",no:"Fortell om en ferie du har hatt: hvor du var, hvem du var med, hvordan det var og hva som skjedde.",st:["Hvor og når","Hvem du reiste med og hvordan","Hvordan været og stedet var (imparfait)","Hva dere gjorde (passé composé)","En spesiell hendelse","Hva du syntes"],fr:["L'été dernier, je suis allé(e) …","Il faisait beau / chaud …","Un jour, nous avons …","C'était le meilleur moment …","Malheureusement, …"],gr:"Passé composé og imparfait sammen",
+m:`L'été dernier, je suis partie en vacances en Croatie avec ma famille. Nous avons pris l'avion d'Oslo à Split, et ensuite nous avons loué une petite maison près de la plage.
+
+Il faisait très chaud, presque trente degrés tous les jours. Le matin, nous nous baignions dans la mer, et l'après-midi, nous nous reposions à l'ombre. Le soir, nous mangions dans de petits restaurants au bord de l'eau.
+
+Un jour, nous avons fait une excursion en bateau. Nous avons vu des dauphins ! C'était le meilleur moment des vacances.
+
+Malheureusement, le dernier jour, mon frère est tombé malade et il a dû rester au lit toute la journée.
+
+Pour conclure, c'étaient des vacances fantastiques. J'ai découvert un nouveau pays et j'ai très bien mangé. L'année prochaine, j'aimerais retourner en Croatie ou visiter l'Italie.`},
+{t:"Les réseaux sociaux : pour ou contre ?",no:"Drøft fordeler og ulemper med sosiale medier for unge. Avslutt med din egen mening.",st:["Innledning: hva saken gjelder","Fordeler (minst to)","Ulemper (minst to)","Din mening, med begrunnelse","Avslutning"],fr:["D'un côté, … D'un autre côté, …","Les avantages / les inconvénients","À mon avis, …","Je pense qu'il faut …","Pour conclure, je dirais que …"],gr:"Présent, il faut + infinitiv, bindeord",
+m:`Aujourd'hui, presque tous les jeunes utilisent les réseaux sociaux comme Instagram, Snapchat ou TikTok. Est-ce que c'est une bonne ou une mauvaise chose ?
+
+D'un côté, les réseaux sociaux ont beaucoup d'avantages. On peut rester en contact avec ses amis, même s'ils habitent loin. On peut aussi s'informer, découvrir de nouvelles choses et partager ses photos.
+
+D'un autre côté, il y a aussi des inconvénients. Beaucoup de jeunes passent trop de temps sur leur téléphone et dorment mal. En plus, on compare souvent sa vie avec la vie « parfaite » des autres, et ça peut rendre triste. Il y a aussi le harcèlement en ligne, qui est un vrai problème.
+
+À mon avis, les réseaux sociaux ne sont ni bons ni mauvais. Tout dépend de la façon dont on les utilise. Je pense qu'il faut limiter son temps d'écran, par exemple en laissant son téléphone dans une autre pièce le soir.
+
+Pour conclure, je dirais que les réseaux sociaux sont utiles, mais il faut les utiliser avec modération.`},
+{t:"Ma ville ou mon village",no:"Beskriv stedet du bor: hva som finnes der, hva du liker og ikke liker, og om du vil bo der i framtiden.",st:["Hvor stedet ligger og hvor stort det er","Hva som finnes der","Det du liker best","Det som er kjedelig eller vanskelig","Hvor du vil bo senere"],fr:["Dans ma ville, il y a …","Il n'y a pas de …","Ce que j'aime le plus, c'est …","Par contre, …","Plus tard, je voudrais habiter …"],gr:"Il y a / il n'y a pas de, présent, conditionnel, futur",
+m:`J'habite dans une petite ville au bord d'un fjord, dans l'ouest de la Norvège. Il y a environ dix mille habitants, donc tout le monde se connaît.
+
+Dans ma ville, il y a une école, un lycée, quelques magasins, deux cafés et une grande salle de sport. Il n'y a pas de cinéma, malheureusement, alors nous devons prendre le bus pour aller à la grande ville.
+
+Ce que j'aime le plus, c'est la nature. En été, on peut se baigner dans le fjord et faire des randonnées en montagne. En hiver, on fait du ski juste à côté de chez moi.
+
+Par contre, c'est parfois ennuyeux pour les jeunes. Le soir, il n'y a pas grand-chose à faire et les bus ne passent pas souvent.
+
+Plus tard, je voudrais habiter dans une grande ville comme Oslo ou peut-être Paris, pour faire mes études. Mais je pense que je reviendrai dans ma petite ville un jour, parce que c'est un endroit calme et beau.`},
+{t:"L'école idéale",no:"Hvordan ville drømmeskolen din vært? Beskriv skoledagen, lærerne, fagene og kantina.",st:["Når skoledagen ville begynt og sluttet","Klassestørrelse og lærere","Fag du ville hatt","Mat og pauser","Hva som ville vært bedre enn i dag"],fr:["Dans mon école idéale, il y aurait …","Les cours commenceraient …","Les élèves pourraient …","À mon avis, ce serait …","Si on …, on …"],gr:"Conditionnel og si + imparfait",
+m:`Dans mon école idéale, les cours commenceraient à neuf heures, parce que les jeunes ont besoin de dormir plus. Les journées seraient un peu plus courtes, mais il y aurait plus de pauses.
+
+Les classes seraient petites, avec quinze élèves au maximum. Comme ça, les professeurs auraient plus de temps pour aider chaque élève.
+
+Il y aurait aussi plus de matières pratiques, par exemple la cuisine, l'économie personnelle et les premiers secours. À mon avis, ce sont des choses utiles pour la vie.
+
+La cantine servirait des repas sains et gratuits tous les jours. Je pense que c'est important de bien manger pour bien travailler.
+
+Enfin, il y aurait moins d'examens et plus de projets en groupe. On apprendrait à travailler ensemble et à être créatif.
+
+Bien sûr, cette école coûterait cher. Mais si on investissait plus dans l'école, toute la société en profiterait plus tard.`},
+{t:"E-mail à une famille d'accueil",no:"Du skal bo to uker hos en vertsfamilie i Frankrike. Skriv en e-post der du presenterer deg og stiller noen spørsmål.",st:["Hilsen og hvem du er","Litt om deg selv","Hva du liker å gjøre","2–3 spørsmål til familien","Takk og avslutning"],fr:["Chère Madame …, cher Monsieur …,","Je suis très content(e) de …","J'ai quelques questions : est-ce que … ?","Je vous remercie de …","J'ai hâte de vous rencontrer !"],gr:"Høflig form (vous), spørsmål med est-ce que",
+m:`Chère Madame Dubois, cher Monsieur Dubois,
+
+Je m'appelle Ida et je suis l'élève norvégienne qui va habiter chez vous pendant deux semaines en avril. Je suis très contente de faire votre connaissance !
+
+J'ai dix-sept ans et j'habite à Bergen avec ma famille. J'apprends le français depuis cinq ans, mais je ne parle pas encore très bien. J'espère faire beaucoup de progrès chez vous.
+
+J'aime le sport, surtout le handball, et j'adore cuisiner. Si vous voulez, je pourrais préparer un plat norvégien pour vous, par exemple des boulettes de viande avec des pommes de terre.
+
+J'ai quelques questions : est-ce que je dois apporter des draps ou une serviette ? Est-ce qu'il fait froid chez vous en avril ? Et est-ce que vous avez des animaux ?
+
+Je vous remercie beaucoup de m'accueillir. J'ai hâte de vous rencontrer !
+
+Cordialement,
+Ida`},
+{t:"Un souvenir d'enfance",no:"Fortell om et minne fra da du var liten. Beskriv hvordan det var, og hva som skjedde.",st:["Hvor og når (quand j'étais petit(e))","Hva du pleide å gjøre (imparfait)","Én hendelse som skjedde (passé composé)","Hva du følte","Hvorfor du husker det"],fr:["Quand j'étais petit(e), …","Tous les étés, nous …","Un jour, …","Tout à coup, …","Je n'oublierai jamais …"],gr:"Imparfait for vaner og bakgrunn, passé composé for hendelser",
+m:`Quand j'étais petite, je passais tous mes étés chez mes grands-parents. Ils habitaient dans une vieille maison à la campagne, près d'un lac.
+
+Le matin, mon grand-père et moi allions pêcher. Nous ne parlions pas beaucoup, mais j'aimais ces moments calmes. Ma grand-mère, elle, faisait des gaufres et de la confiture avec les fraises du jardin.
+
+Un été, quand j'avais huit ans, il s'est passé quelque chose de spécial. Un soir, pendant que nous mangions dehors, un orage a éclaté. Il y avait des éclairs partout et il pleuvait très fort. Tout à coup, il y a eu une coupure de courant. Alors, mon grand-père a allumé des bougies et il nous a raconté des histoires de fantômes jusqu'à minuit. J'avais un peu peur, mais c'était génial !
+
+Aujourd'hui, mes grands-parents ont vendu la maison, mais je n'oublierai jamais ces étés. Ce sont mes plus beaux souvenirs d'enfance.`},
+{t:"Mes projets pour l'avenir",no:"Hva vil du gjøre etter videregående? Skriv om utdanning, jobb, hvor du vil bo og hva som er viktig for deg.",st:["Rett etter videregående","Utdanning og yrke – og hvorfor","Hvor du vil bo","Hva som er viktigst for deg","Hva som kan bli vanskelig"],fr:["Après le lycée, je …","Je ferai des études de …","Plus tard, j'habiterai …","Pour moi, le plus important, c'est …","Si je travaille dur, …"],gr:"Futur simple (og si + présent)",
+m:`Après le lycée, j'aimerais faire une pause d'un an. Je travaillerai pendant six mois pour gagner de l'argent, et ensuite je voyagerai en Europe. Je voudrais surtout aller en France pour améliorer mon français.
+
+Après mon année de pause, je ferai des études de psychologie à l'université. C'est un métier intéressant, parce qu'on aide les gens à aller mieux. Les études seront longues et difficiles, mais je suis motivée.
+
+Plus tard, je pense que j'habiterai dans une grande ville, peut-être à Oslo ou à Trondheim. J'aurai un petit appartement avec un balcon et, pourquoi pas, un chien.
+
+Je ne sais pas encore si j'aurai des enfants. Pour moi, le plus important, c'est d'avoir un travail qui me plaît et de passer du temps avec les gens que j'aime.
+
+Bien sûr, la vie ne se passe pas toujours comme prévu. Mais si je travaille dur, je pense que j'atteindrai mes objectifs.`},
+{t:"Le sport et la santé",no:"Hvorfor trener mange unge for lite? Skriv om dine egne erfaringer og hva skolen eller samfunnet kunne gjort.",st:["Hva er god helse?","Hvorfor beveger unge seg for lite?","Din egen erfaring","Forslag til løsninger","Avslutning"],fr:["Pour être en bonne santé, il faut …","D'abord, … Ensuite, …","Moi, je …","À mon avis, l'école pourrait …","Si on aime ce qu'on fait, …"],gr:"Présent, il faut, conditionnel for forslag",
+m:`Pour être en bonne santé, il faut bouger, bien manger et bien dormir. Mais aujourd'hui, beaucoup de jeunes ne font pas assez de sport.
+
+Pourquoi ? D'abord, on passe beaucoup de temps assis, à l'école et devant les écrans. Ensuite, certains jeunes pensent que le sport est seulement pour les meilleurs. S'ils ne gagnent pas, ils arrêtent.
+
+Moi, je fais de la natation deux fois par semaine. Je ne suis pas très rapide, mais j'aime ça. Après l'entraînement, je me sens détendue et je dors mieux.
+
+À mon avis, l'école pourrait faire plus. Par exemple, on pourrait avoir une heure d'activité physique chaque jour, avec des activités variées comme la danse, la randonnée ou le yoga. Comme ça, tout le monde trouverait quelque chose qu'il aime.
+
+Pour conclure, je pense que le sport doit être un plaisir et pas une compétition. Si on aime ce qu'on fait, on continue toute sa vie.`},
+{t:"L'environnement : que peut-on faire ?",no:"Skriv om klima og miljø. Hva kan myndighetene gjøre, og hva kan hver enkelt av oss gjøre?",st:["Problemet kort forklart","Hva myndighetene kan gjøre","Hva vi kan gjøre i hverdagen","Hva du selv gjør","Din mening / avslutning"],fr:["… est un des plus grands problèmes …","D'abord, les gouvernements doivent …","Chacun de nous peut …","Moi, j'essaie de …","Si tout le monde …, on peut …"],gr:"Devoir/pouvoir + infinitiv, si + présent",
+m:`Le changement climatique est un des plus grands problèmes de notre époque. Les températures augmentent, la glace fond et il y a de plus en plus de catastrophes naturelles. Que peut-on faire ?
+
+D'abord, les gouvernements doivent agir. Ils peuvent investir dans les énergies renouvelables, comme le vent et le soleil, et développer les transports en commun.
+
+Mais chacun de nous peut aussi faire quelque chose. Par exemple, on peut prendre le vélo ou le bus au lieu de la voiture. On peut aussi manger moins de viande et éviter de jeter de la nourriture. En Norvège, on jette beaucoup de nourriture, et c'est un vrai gaspillage.
+
+Moi, j'essaie de faire attention. J'achète des vêtements d'occasion, je trie mes déchets et je prends très rarement l'avion.
+
+Certaines personnes pensent que les petits gestes ne servent à rien. Je ne suis pas d'accord. Si tout le monde fait un petit effort, ensemble, on peut changer beaucoup de choses.`},
+{t:"Présente la Norvège",no:"En fransk ungdom skal besøke Norge. Skriv en tekst som presenterer landet: natur, folk, tradisjoner og mat.",st:["Fakta om landet","Naturen","Hva nordmenn liker å gjøre","En tradisjon eller høytid","Mat","Råd til den som kommer på besøk"],fr:["La Norvège est connue pour …","Les Norvégiens adorent …","La fête la plus importante est …","Il faut goûter …","Si tu viens en Norvège, …"],gr:"Présent, imperativ (prends, viens), si + présent",
+m:`La Norvège est un pays du nord de l'Europe. Il y a environ cinq millions et demi d'habitants, et la capitale est Oslo.
+
+La Norvège est connue pour sa nature magnifique. Il y a des fjords, des montagnes et des forêts partout. Dans le nord, on peut voir des aurores boréales en hiver, et en été, le soleil ne se couche pas : c'est le soleil de minuit.
+
+Les Norvégiens adorent être dehors. Le week-end, beaucoup de gens font des randonnées en été et du ski en hiver. On dit souvent que les Norvégiens naissent avec des skis aux pieds !
+
+La fête la plus importante est le 17 mai, la fête nationale. Ce jour-là, les enfants défilent dans les rues avec des drapeaux, et beaucoup de gens portent le costume traditionnel, le bunad.
+
+Il faut aussi goûter le brunost, un fromage brun et un peu sucré. Les Norvégiens le mangent sur du pain au petit-déjeuner.
+
+Si tu viens en Norvège, prends un bon manteau, parce qu'il fait souvent froid !`},
+{t:"Un week-end parfait",no:"Beskriv drømmehelgen din fra fredag kveld til søndag. Avslutt med hvordan helgene dine egentlig er.",st:["Fredag kveld","Lørdag (formiddag, ettermiddag, kveld)","Søndag","Hva du ville gjort hvis været var dårlig","Hvordan en vanlig helg er"],fr:["Mon week-end parfait commencerait …","Je dormirais jusqu'à …","S'il faisait beau, j'irais …","Nous ferions …","En réalité, …"],gr:"Conditionnel og si + imparfait",
+m:`Mon week-end parfait commencerait le vendredi soir. Je mangerais une pizza avec mes amis et nous regarderions un film ensemble.
+
+Le samedi matin, je dormirais jusqu'à dix heures. Ensuite, je prendrais un grand petit-déjeuner avec des croissants et un chocolat chaud. L'après-midi, s'il faisait beau, j'irais à la plage ou je ferais une randonnée en montagne. S'il pleuvait, j'irais au café pour lire un bon livre.
+
+Le samedi soir, j'irais au concert de mon chanteur préféré. Après le concert, nous irions manger dans un restaurant italien.
+
+Le dimanche, je passerais la journée avec ma famille. Nous ferions une longue promenade et ma mère préparerait un bon dîner.
+
+Bien sûr, dans mon week-end parfait, il n'y aurait pas de devoirs ! Mais en réalité, mes week-ends sont souvent plus calmes : je travaille, je fais mes devoirs et je me repose.`},
+{t:"Le portable à l'école",no:"Bør mobiltelefoner forbys på skolen? Drøft argumenter for og mot, og si hva du selv mener.",st:["Innledning","Argumenter for forbud","Argumenter mot forbud","Din mening","Avslutning"],fr:["Les personnes qui sont pour … pensent que …","Par contre, d'autres pensent que …","En cas d'urgence, …","À mon avis, il faut trouver un équilibre.","Pour conclure, …"],gr:"Présent, devoir i conditionnel (devraient), bindeord",
+m:`Dans beaucoup d'écoles, les élèves n'ont pas le droit d'utiliser leur portable pendant les cours. Certaines écoles l'interdisent même pendant les pauses. Est-ce une bonne idée ?
+
+Les personnes qui sont pour l'interdiction pensent que le portable empêche les élèves de se concentrer. Quand on reçoit des messages, on oublie d'écouter le professeur. En plus, pendant les pauses, les élèves regardent leur écran au lieu de parler ensemble.
+
+Par contre, d'autres pensent que le portable peut être utile. On peut chercher des informations, utiliser un dictionnaire ou faire des exercices en ligne. Et en cas d'urgence, il est important de pouvoir contacter ses parents.
+
+À mon avis, il faut trouver un équilibre. Je suis d'accord pour interdire le portable pendant les cours, sauf quand le professeur demande de l'utiliser. Mais pendant les pauses, les élèves devraient avoir le choix.
+
+Pour conclure, le portable n'est pas un problème en soi. Le problème, c'est quand on ne sait pas s'arrêter.`},
+{t:"Postuler pour un job d'été",no:"Du har sett en annonse om sommerjobb på en campingplass i Frankrike. Skriv en formell e-post der du søker på jobben.",st:["Formell hilsen og hvorfor du skriver","Hvem du er","Språk og erfaring","Hvorfor du passer til jobben","Når du kan jobbe","Formell avslutning"],fr:["Madame, Monsieur,","Je voudrais postuler pour …","L'été dernier, j'ai travaillé …","Je suis sérieux/sérieuse et …","Je suis disponible du … au …","Je vous prie d'agréer, Madame, Monsieur, mes salutations distinguées."],gr:"Formell stil (vous), passé composé om erfaring, conditionnel",
+m:`Madame, Monsieur,
+
+J'ai vu votre annonce sur Internet et je voudrais postuler pour le job d'été dans votre camping, en juillet et en août.
+
+Je m'appelle Ida Hansen, j'ai dix-sept ans et je suis norvégienne. Je suis élève en deuxième année au lycée à Bergen. Je parle norvégien, anglais et un peu français, et je voudrais améliorer mon français en travaillant en France.
+
+L'été dernier, j'ai travaillé dans un supermarché. J'ai appris à servir les clients, à travailler en équipe et à être organisée. Je suis sérieuse, souriante et je n'ai pas peur de travailler dur.
+
+J'aime aussi les enfants. Depuis deux ans, j'entraîne une équipe de handball de filles de dix ans. Je pourrais donc organiser des activités pour les enfants du camping.
+
+Je suis disponible du 1er juillet au 20 août. Vous trouverez mon CV en pièce jointe.
+
+Dans l'attente de votre réponse, je vous prie d'agréer, Madame, Monsieur, mes salutations distinguées.
+
+Ida Hansen`},
+{t:"Une série ou un film que j'aime",no:"Skriv om en serie, film eller bok du liker. Bruk gjerne en du faktisk har sett – modellteksten handler om en tenkt serie.",st:["Hva den handler om","Favorittpersonen din – og hvorfor","Hva du likte","Hva du ikke likte","Anbefaling"],fr:["Elle raconte l'histoire de …","Le personnage que je préfère, c'est …","J'ai aimé … pour plusieurs raisons.","Par contre, …","Je recommande … à …"],gr:"Présent for handlingen, passé composé/imparfait om din opplevelse",
+m:`Récemment, j'ai regardé une série française que j'ai adorée. Elle raconte l'histoire de quatre amis qui sont en dernière année au lycée à Marseille. Ils ont des problèmes avec leurs familles, l'amour et l'école, mais ils s'aident toujours.
+
+Le personnage que je préfère, c'est Nora. Elle est drôle, courageuse et un peu folle. Au début, elle est très timide, mais à la fin de la série, elle a beaucoup changé.
+
+J'ai aimé cette série pour plusieurs raisons. D'abord, les acteurs sont très bons et naturels. Ensuite, les histoires sont réalistes : on peut facilement s'identifier aux personnages. Enfin, j'ai appris beaucoup d'expressions françaises, parce que je regardais avec des sous-titres en français.
+
+Par contre, certains épisodes étaient un peu lents, et la fin était triste. J'aurais préféré une fin plus heureuse.
+
+Je recommande cette série à tous les jeunes qui apprennent le français. C'est une façon amusante d'améliorer son niveau !`},
+{t:"Vivre à l'étranger ?",no:"Kunne du tenke deg å bo i et annet land? Skriv om fordeler, ulemper og hva du selv ville valgt.",st:["Ja eller nei – og hvor","Fordeler","Ulemper / utfordringer","Hva du ville savnet","Konklusjon"],fr:["Si je vivais à l'étranger, je …","D'abord, … Ensuite, …","Ce ne serait pas toujours facile.","… me manqueraient.","Pourtant, je pense que …"],gr:"Si + imparfait → conditionnel, manquer à",
+m:`Est-ce que j'aimerais vivre à l'étranger ? Oui, au moins pendant quelques années.
+
+Si je vivais à l'étranger, je choisirais la France, peut-être Lyon ou Montpellier. J'aimerais découvrir une autre culture, une autre langue et une autre façon de vivre. Je pense qu'on apprend beaucoup sur soi-même quand on quitte son pays.
+
+D'abord, je parlerais mieux français. Quand on habite dans un pays, on est obligé de parler la langue tous les jours, et on fait des progrès très vite. Ensuite, je rencontrerais des gens de partout dans le monde.
+
+Mais ce ne serait pas toujours facile. Ma famille et mes amis me manqueraient, et je devrais tout organiser seule : trouver un appartement, ouvrir un compte en banque, faire les courses… Au début, je me sentirais peut-être un peu seule.
+
+Pourtant, je pense que ce serait une expérience très riche. Si j'en ai l'occasion après le lycée, je partirai sans hésiter !`}
+];
+let tSel=0;
+function lsGet(k){try{return localStorage.getItem(k)||"";}catch(e){return "";}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+function tasksEx(box){
+  const pick=$(`<div class="card"><div class="eyebrow">Velg oppgave (${TASKS.length})</div><div class="chips" style="margin-top:6px"></div></div>`);
+  TASKS.forEach((t,k)=>{const done=lsGet("fe-essay-"+k).trim().length>0;const b=$(`<button class="chip" aria-pressed="${k===tSel}">${done?"✓ ":""}${esc(t.t)}</button>`);b.onclick=()=>{tSel=k;render();};pick.querySelector(".chips").append(b);});
+  box.append(pick);
+  const t=TASKS[tSel], key="fe-essay-"+tSel;
+  const c=$(`<div class="card">
+    <div class="taskhead"><h2 lang="fr">${esc(t.t)}</h2><span class="eyebrow">Øv på: ${esc(t.gr)}</span></div>
+    <p>${esc(t.no)} <span class="muted">Skriv ca. 150–250 ord.</span></p>
+    <div class="twocol"><div><h3>Ta med</h3><ul>${t.st.map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div>
+    <div><h3>Nyttige uttrykk</h3><ul lang="fr">${t.fr.map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div></div>
+    <label for="essay" class="eyebrow">Din tekst</label>
+    <textarea class="essay" id="essay" lang="fr" spellcheck="false" placeholder="Skriv her …"></textarea>
+    <div class="row" style="justify-content:space-between;margin-top:6px"><span class="wc" id="wc"></span><span class="wc">Lagres automatisk i denne nettleseren</span></div>
+    <div class="row" style="margin-top:12px"><button class="btn ghost" id="copy">Kopier teksten</button><button class="btn" id="showm">Vis modelltekst</button></div>
+    <p class="muted" id="copymsg" style="margin-top:8px"></p>
+    <div id="mbox" hidden><h3 style="margin-top:14px">Modelltekst</h3><p class="muted">Sammenlign med din egen: Har du like mange tider? Bindeord? Er avsnittene tydelige?</p><div class="model" lang="fr"></div></div>
+  </div>`);
+  box.append(c);
+  const ta=c.querySelector("#essay"), wc=c.querySelector("#wc");
+  ta.value=lsGet(key);
+  const count=()=>{const n=(ta.value.trim().match(/[^\s]+/g)||[]).length;wc.textContent=n+" ord";};
+  ta.addEventListener("input",()=>{lsSet(key,ta.value);count();});count();
+  c.querySelector(".model").textContent=t.m;
+  c.querySelector("#showm").onclick=()=>{const mb=c.querySelector("#mbox");mb.hidden=!mb.hidden;c.querySelector("#showm").textContent=mb.hidden?"Vis modelltekst":"Skjul modelltekst";};
+  c.querySelector("#copy").onclick=()=>{const msg=c.querySelector("#copymsg");const txt="Oppgave: "+t.t+"\n\n"+ta.value;
+    navigator.clipboard&&navigator.clipboard.writeText(txt).then(()=>{msg.textContent="Kopiert. Lim inn til læreren eller i en chat for å få teksten rettet.";},()=>{ta.select();msg.textContent="Teksten er markert – kopier den manuelt.";});
+    if(!navigator.clipboard){ta.select();msg.textContent="Teksten er markert – kopier den manuelt.";}};
+}
+let wTab="oppgaver";
 function viewWrite(root){
   const box=$(`<section class="view"></section>`);
-  const top=$(`<div class="card"><h2>Skrivetrening</h2><p class="muted">Bygg setninger, finn feil og lær faste uttrykk. Uttrykkene under løfter en eksamenstekst raskt.</p><div class="chips"></div></div>`);
-  [["bygg","Bygg setningen"],["feil","Rett feilen"],["fraser","Nyttige uttrykk"],["sjekk","Sjekkliste før innlevering"]].forEach(([k,l])=>{const b=$(`<button class="chip" aria-pressed="${k===wTab}">${l}</button>`);b.onclick=()=>{wTab=k;render();};top.querySelector(".chips").append(b);});
+  const top=$(`<div class="card"><h2>Skrivetrening</h2><p class="muted">Start med skriveoppgavene – det er dette eksamen måler. Resten er trening på byggesteinene.</p><div class="chips"></div></div>`);
+  [["oppgaver","Skriveoppgaver"],["bygg","Bygg setningen"],["feil","Rett feilen"],["fraser","Nyttige uttrykk"],["sjekk","Sjekkliste før innlevering"]].forEach(([k,l])=>{const b=$(`<button class="chip" aria-pressed="${k===wTab}">${l}</button>`);b.onclick=()=>{wTab=k;render();};top.querySelector(".chips").append(b);});
   box.append(top); root.append(box);
+  if(wTab==="oppgaver") tasksEx(box);
   if(wTab==="bygg") buildEx(box);
   if(wTab==="feil") mcRun(box,shuffle(FIX).map(x=>Object.assign({c:"Rett feilen",pre:`<p class="muted" style="margin-bottom:4px">Setningen under har én feil:</p><div class="wrong-sent"><s>${esc(x.q)}</s></div><p class="muted">Hvilken versjon er riktig?</p>`},x,{q:"",label:x.q})),"Rett feilen");
   if(wTab==="fraser") phrases(box);
@@ -535,7 +1053,7 @@ function viewHome(root){
     <div class="stat"><b>${S.total}</b><span>svar totalt</span></div>
     <div class="stat"><b>${pct} %</b><span>treffsikkerhet</span></div></div></div>`));
   const g=$(`<div class="grid2"></div>`);
-  [["verb","Verb","Bøy de viktigste verbene i seks tider. Grunnmuren for alt annet."],["grammatikk","Grammatikk","Fortid, pronomen, adjektiv, nektelse, si-setninger – med forklaring."],["lesing","Lesing","Tre tekster med spørsmål, i stil med eksamenstekster."],["skriving","Skriving","Bygg setninger, rett feil og lær uttrykk som løfter teksten."]].forEach(([v,h,d])=>{const b=$(`<button class="tile"><b>${h}</b><span class="muted">${d}</span></button>`);b.onclick=()=>go(v);g.append(b);});
+  [["verb","Verb","33 viktige verb i seks tider. Grunnmuren for alt annet."],["grammatikk","Grammatikk","150 spørsmål: fortid, framtid, pronomen, adjektiv, si-setninger og mer."],["lesing","Lesing","11 tekster med spørsmål og ordliste."],["skriving","Skriving","16 skriveoppgaver med modelltekst, pluss setningsbygging og feilretting."]].forEach(([v,h,d])=>{const b=$(`<button class="tile"><b>${h}</b><span class="muted">${d}</span></button>`);b.onclick=()=>go(v);g.append(b);});
   box.append(g);
   box.append($(`<div class="card"><h2>Forslag til økt – 20 minutter</h2>
    <ul class="check">
