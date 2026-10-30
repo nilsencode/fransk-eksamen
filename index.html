@@ -1,0 +1,565 @@
+<!doctype html><html lang="no"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"></head><body>
+<title>Fransk eksamenstrening</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600&display=swap">
+<style>
+/* Layout: et fransk skolehefte (Seyès-linjer, rød marg) – faner øverst, én øvelse om gangen */
+:root{
+  --paper:#fbfbfd; --card:#ffffff; --ink:#24307a; --line:#d9d4ef; --line2:#bdb5e3;
+  --margin:#cf3f37; --text:#1c1e2b; --muted:#5d6177; --ok:#1d7448; --okbg:#e5f4ec;
+  --bad:#b8352d; --badbg:#fbe9e7; --chip:#eef0fa;
+  --f-display:"Young Serif", Georgia, serif;
+  --f-body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-hand:"Caveat", "Comic Sans MS", cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#13152a; --card:#1b1e37; --ink:#a8b6ff; --line:#232748; --line2:#2e3360;
+  --margin:#ff7b70; --text:#e7e8f2; --muted:#a3a7c0; --ok:#63d39c; --okbg:#173326;
+  --bad:#ff8c82; --badbg:#3a1c1c; --chip:#262a4c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#13152a; --card:#1b1e37; --ink:#a8b6ff; --line:#232748; --line2:#2e3360;
+  --margin:#ff7b70; --text:#e7e8f2; --muted:#a3a7c0; --ok:#63d39c; --okbg:#173326;
+  --bad:#ff8c82; --badbg:#3a1c1c; --chip:#262a4c; color-scheme:dark}
+
+body{background:var(--paper);color:var(--text);font-family:var(--f-body);font-size:17px;line-height:1.55;
+  background-image:
+    linear-gradient(to right, transparent calc(max(16px, env(safe-area-inset-left,0px)) + 18px), var(--margin) calc(max(16px, env(safe-area-inset-left,0px)) + 18px), var(--margin) calc(max(16px, env(safe-area-inset-left,0px)) + 19.5px), transparent calc(max(16px, env(safe-area-inset-left,0px)) + 19.5px)),
+    repeating-linear-gradient(to bottom, transparent 0 31px, var(--line2) 31px 32px),
+    repeating-linear-gradient(to bottom, transparent 0 7px, var(--line) 7px 8px);
+  background-attachment:local;}
+.wrap{max-width:820px;margin:0 auto;padding-block:20px 60px;padding-left:max(16px, env(safe-area-inset-left,0px));padding-right:max(16px, env(safe-area-inset-right,0px));}
+.inner{padding-left:30px}
+@media (max-width:520px){.inner{padding-left:26px}}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 16px;margin-bottom:14px}
+h1{font-family:var(--f-display);font-weight:400;color:var(--ink);font-size:clamp(1.7rem,4.5vw,2.4rem);line-height:1.1;margin:0;text-wrap:balance}
+.sub{color:var(--muted);margin:4px 0 0;font-size:.95rem}
+.score{font-family:var(--f-hand);color:var(--margin);font-size:1.6rem;line-height:1;white-space:nowrap}
+nav.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:18px;scrollbar-width:thin}
+nav.tabs button{flex:0 0 auto;border:1px solid var(--line2);background:var(--card);color:var(--text);font:inherit;font-size:.95rem;padding:7px 14px;border-radius:999px;cursor:pointer}
+nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+nav.tabs .badge{display:inline-block;min-width:1.4em;margin-left:6px;padding:0 6px;border-radius:999px;background:var(--margin);color:#fff;font-size:.78rem;text-align:center}
+section.view{display:grid;gap:16px}
+.card{background:var(--card);border:1px solid var(--line2);border-radius:10px;padding:18px 20px;min-width:0}
+h2{font-family:var(--f-display);font-weight:400;color:var(--ink);font-size:1.45rem;margin:0 0 6px;text-wrap:balance}
+h3{font-size:1.02rem;margin:0 0 6px;letter-spacing:.02em}
+p{margin:0 0 10px}
+.muted{color:var(--muted)}
+.eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;color:var(--muted);font-weight:700}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.tile{border:1px solid var(--line2);border-radius:10px;padding:14px 16px;background:var(--card);cursor:pointer;text-align:left;font:inherit;color:inherit;display:grid;gap:4px}
+.tile:hover{border-color:var(--ink)}
+.tile b{font-family:var(--f-display);font-weight:400;color:var(--ink);font-size:1.15rem}
+.stats{display:flex;flex-wrap:wrap;gap:22px}
+.stat b{display:block;font-family:var(--f-display);font-weight:400;font-size:1.9rem;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.1}
+.stat span{font-size:.85rem;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line2);background:var(--chip);color:var(--text);font:inherit;font-size:.88rem;padding:4px 11px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn{font:inherit;font-weight:700;border:0;border-radius:8px;padding:10px 18px;cursor:pointer;background:var(--ink);color:var(--paper)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+button:focus-visible,input:focus-visible{outline:3px solid var(--margin);outline-offset:2px}
+.prompt{font-size:1.25rem;margin:4px 0 12px}
+.prompt .pron{font-family:var(--f-display);color:var(--ink);font-size:1.5rem}
+.tense{display:inline-block;background:var(--chip);border-radius:6px;padding:1px 8px;font-size:.9rem;margin-left:6px}
+input.answer{font:inherit;font-size:1.2rem;width:100%;max-width:420px;padding:9px 12px;border:2px solid var(--line2);border-radius:8px;background:var(--paper);color:var(--text)}
+.accents{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0 12px}
+.accents button{font:inherit;min-width:36px;padding:4px 6px;border:1px solid var(--line2);border-radius:6px;background:var(--chip);color:var(--text);cursor:pointer}
+.fb{border-radius:8px;padding:10px 14px;margin-top:12px}
+.fb.ok{background:var(--okbg);color:var(--ok)}
+.fb.bad{background:var(--badbg);color:var(--bad)}
+.fb .hand{font-family:var(--f-hand);font-size:1.45rem;line-height:1.1;display:block}
+.fb .ex{color:var(--text);display:block;margin-top:4px}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;font:inherit;padding:10px 14px;border:1.5px solid var(--line2);border-radius:8px;background:var(--card);color:var(--text);cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}
+.opt:disabled{cursor:default}
+.progress{height:6px;background:var(--chip);border-radius:3px;overflow:hidden;margin-bottom:12px}
+.progress i{display:block;height:100%;background:var(--ink);transition:width .25s}
+.qtext{font-size:1.15rem;margin-bottom:12px}
+.qtext .gap{border-bottom:2px solid var(--margin);padding:0 1.2em}
+.text-fr{font-size:1.05rem;line-height:1.75;max-width:65ch}
+.text-fr p{margin-bottom:12px}
+details.gloss{margin-top:6px}
+details.gloss summary{cursor:pointer;color:var(--ink);font-weight:700}
+.gloss dl{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;margin:8px 0 0}
+.gloss dt{font-style:italic}
+.gloss dd{margin:0;color:var(--muted)}
+.rq{border-top:1px dashed var(--line2);padding-top:12px;margin-top:12px}
+.tokens{display:flex;flex-wrap:wrap;gap:6px;min-height:46px;padding:8px;border-radius:8px}
+.tokens.target{border:2px dashed var(--line2);background:var(--paper)}
+.tok{font:inherit;font-size:1.05rem;padding:5px 10px;border-radius:6px;border:1px solid var(--line2);background:var(--chip);color:var(--text);cursor:pointer}
+.wrong-sent{font-size:1.15rem;margin-bottom:10px}
+.wrong-sent s{text-decoration-color:var(--margin)}
+.flash{min-height:150px;display:grid;place-items:center;text-align:center;cursor:pointer;border:1.5px solid var(--line2);border-radius:12px;background:var(--card);padding:20px;user-select:none}
+.flash .fr{font-family:var(--f-display);font-size:1.6rem;color:var(--ink)}
+.flash .no{font-size:1.15rem}
+.flash small{display:block;color:var(--muted);margin-top:8px}
+.tablewrap{overflow-x:auto}
+table.conj{border-collapse:collapse;font-size:.95rem}
+table.conj th,table.conj td{padding:4px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+table.conj th{color:var(--muted);font-weight:700}
+ul.check{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+ul.check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+ul.check input{margin-top:5px;accent-color:var(--ink);width:18px;height:18px;flex:0 0 auto}
+.mlist{display:grid;gap:6px}
+.mitem{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:4px 0;font-size:.95rem}
+.mitem span:first-child{min-width:0}
+.done{text-align:center;padding:10px}
+.done .big{font-family:var(--f-hand);font-size:2.6rem;color:var(--margin);line-height:1}
+footer{margin-top:26px;font-size:.85rem;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap"><div class="inner">
+  <header class="top">
+    <div>
+      <h1>Fransk eksamenstrening</h1>
+      <p class="sub">Fransk nivå II, Vg2 – skriftlig. Litt hver dag slår mye på én gang.</p>
+    </div>
+    <div class="score" id="scoreTop" aria-live="polite"></div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Øvelser">
+    <button role="tab" data-v="hjem">Start</button>
+    <button role="tab" data-v="verb">Verb</button>
+    <button role="tab" data-v="grammatikk">Grammatikk</button>
+    <button role="tab" data-v="lesing">Lesing</button>
+    <button role="tab" data-v="skriving">Skriving</button>
+    <button role="tab" data-v="feil">Mine feil<span class="badge" id="errBadge" hidden></span></button>
+  </nav>
+
+  <main id="app"><div class="card"><h2>Øvelsene vises ikke her</h2><p>Denne visningen kjører ikke selve appen. Åpne lenken til appen i nettleseren (Safari eller Chrome), så kommer verb, grammatikk, lesing og skriving fram.</p></div></main>
+
+  <footer>Øvingstekstene og oppgavene er laget for denne appen ut fra vanlige temaer på nivå II. Sjekk eksamensform og tillatte hjelpemidler med skolen. Fremgangen lagres bare i denne nettleseren.</footer>
+</div></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- lagring ---------- */
+const KEY="fransk-eks-v1";
+let S={total:0,right:0,days:{},mist:{}};
+try{const r=localStorage.getItem(KEY);if(r){S=Object.assign(S,JSON.parse(r));}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function today(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function streak(){let n=0;const d=new Date();for(;;){const k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");if(S.days[k]){n++;d.setDate(d.getDate()-1);}else{if(n===0&&k===today()){d.setDate(d.getDate()-1);continue;}break;}}return n;}
+function record(ok,mkey,mlabel){
+  S.total++; if(ok)S.right++;
+  const t=today(); S.days[t]=S.days[t]||{n:0,r:0}; S.days[t].n++; if(ok)S.days[t].r++;
+  if(mkey){ if(ok){ delete S.mist[mkey]; } else { S.mist[mkey]={label:mlabel,n:((S.mist[mkey]||{}).n||0)+1}; } }
+  save(); updateTop();
+}
+function updateTop(){
+  const t=S.days[today()]||{n:0,r:0};
+  document.getElementById("scoreTop").textContent= t.n? ("I dag: "+t.r+" / "+t.n) : "Bonne chance !";
+  const n=Object.keys(S.mist).length, b=document.getElementById("errBadge");
+  b.hidden=!n; b.textContent=n;
+}
+
+/* ---------- hjelpere ---------- */
+const $=(h)=>{const t=document.createElement("template");t.innerHTML=h.trim();return t.content.firstElementChild;};
+const esc=(s)=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle=(a)=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const pick=(a)=>a[Math.floor(Math.random()*a.length)];
+const deacc=(s)=>s.normalize("NFD").replace(/[̀-ͯ]/g,"");
+function norm(s){return s.toLowerCase().replace(/[’`´]/g,"'").replace(/[.!?,;:]+$/,"").replace(/\s+/g," ").trim();}
+const PRAISE=["Très bien !","Parfait !","Bravo !","Super !","Exactement !","C'est ça !"];
+const OOPS=["Pas tout à fait…","Presque…","Oups…","Non, mais courage !"];
+
+/* ---------- VERB ---------- */
+const PERS=["je","tu","il","elle","nous","vous","ils","elles"], PIDX=[0,1,2,2,3,4,5,5];
+const AV=["ai","as","a","avons","avez","ont"], ET=["suis","es","est","sommes","êtes","sont"], AL=["vais","vas","va","allons","allez","vont"];
+const IMPE=["ais","ais","ait","ions","iez","aient"], FUTE=["ai","as","a","ons","ez","ont"];
+const V={
+ "être":{no:"å være",p:ET,imp:"ét",fut:"ser",pp:"été",aux:"a"},
+ "avoir":{no:"å ha",p:AV,imp:"av",fut:"aur",pp:"eu",aux:"a"},
+ "aller":{no:"å gå/dra",p:AL,imp:"all",fut:"ir",pp:"allé",aux:"e"},
+ "faire":{no:"å gjøre/lage",p:["fais","fais","fait","faisons","faites","font"],imp:"fais",fut:"fer",pp:"fait",aux:"a"},
+ "prendre":{no:"å ta",p:["prends","prends","prend","prenons","prenez","prennent"],imp:"pren",fut:"prendr",pp:"pris",aux:"a"},
+ "pouvoir":{no:"å kunne",p:["peux","peux","peut","pouvons","pouvez","peuvent"],imp:"pouv",fut:"pourr",pp:"pu",aux:"a"},
+ "vouloir":{no:"å ville",p:["veux","veux","veut","voulons","voulez","veulent"],imp:"voul",fut:"voudr",pp:"voulu",aux:"a"},
+ "devoir":{no:"å måtte",p:["dois","dois","doit","devons","devez","doivent"],imp:"dev",fut:"devr",pp:"dû",aux:"a"},
+ "venir":{no:"å komme",p:["viens","viens","vient","venons","venez","viennent"],imp:"ven",fut:"viendr",pp:"venu",aux:"e"},
+ "partir":{no:"å reise/dra",p:["pars","pars","part","partons","partez","partent"],imp:"part",fut:"partir",pp:"parti",aux:"e"},
+ "voir":{no:"å se",p:["vois","vois","voit","voyons","voyez","voient"],imp:"voy",fut:"verr",pp:"vu",aux:"a"},
+ "savoir":{no:"å vite",p:["sais","sais","sait","savons","savez","savent"],imp:"sav",fut:"saur",pp:"su",aux:"a"},
+ "dire":{no:"å si",p:["dis","dis","dit","disons","dites","disent"],imp:"dis",fut:"dir",pp:"dit",aux:"a"},
+ "parler":{no:"å snakke",p:["parle","parles","parle","parlons","parlez","parlent"],imp:"parl",fut:"parler",pp:"parlé",aux:"a"},
+ "manger":{no:"å spise",p:["mange","manges","mange","mangeons","mangez","mangent"],impF:["mangeais","mangeais","mangeait","mangions","mangiez","mangeaient"],fut:"manger",pp:"mangé",aux:"a"},
+ "finir":{no:"å avslutte",p:["finis","finis","finit","finissons","finissez","finissent"],imp:"finiss",fut:"finir",pp:"fini",aux:"a"},
+ "attendre":{no:"å vente",p:["attends","attends","attend","attendons","attendez","attendent"],imp:"attend",fut:"attendr",pp:"attendu",aux:"a"}
+};
+const TENSES={pres:"Présent",pc:"Passé composé",imp:"Imparfait",fp:"Futur proche",fut:"Futur simple",cond:"Conditionnel"};
+const TENSE_NO={pres:"nåtid",pc:"fortid – avsluttet handling",imp:"fortid – bakgrunn/vane",fp:"skal/kommer til å",fut:"framtid",cond:"ville ha/kunne"};
+function forms(vb,t,pi){
+  const v=V[vb], i=PIDX[pi];
+  if(t==="pres") return [v.p[i]];
+  if(t==="imp") return [v.impF? v.impF[i] : v.imp+IMPE[i]];
+  if(t==="fut") return [v.fut+FUTE[i]];
+  if(t==="cond") return [v.fut+IMPE[i]];
+  if(t==="fp") return [AL[i]+" "+vb];
+  if(t==="pc"){
+    if(v.aux==="a") return [AV[i]+" "+v.pp];
+    const a=ET[i], p=v.pp, pers=PERS[pi];
+    const m={je:[p,p+"e"],tu:[p,p+"e"],il:[p],elle:[p+"e"],nous:[p+"s",p+"es"],vous:[p,p+"e",p+"s",p+"es"],ils:[p+"s"],elles:[p+"es"]}[pers];
+    return m.map(x=>a+" "+x);
+  }
+}
+function pronFor(pi,ans){ if(pi===0 && /^[aeiouéèêh]/i.test(ans)) return "j'"; return PERS[pi]; }
+function stripPron(s){return s.replace(/^(je |j'|tu |il |elle |on |nous |vous |ils |elles )/,"");}
+let verbCfg={tenses:new Set(["pres","pc","imp"]),verbs:"alle"};
+const VGROUPS={alle:Object.keys(V),vanlige:["être","avoir","aller","faire","prendre","pouvoir","vouloir","venir"],regel:["parler","manger","finir","attendre"]};
+
+function viewVerb(root,forced){
+  const box=$(`<section class="view"></section>`);
+  const cfg=$(`<div class="card"><h2>Verbtrening</h2>
+   <p class="muted">Skriv verbformen. Du trenger ikke skrive pronomenet. Velg tider og verb du vil øve på.</p>
+   <div class="eyebrow">Tider</div><div class="chips" id="tch" style="margin:6px 0 12px"></div>
+   <div class="eyebrow">Verb</div><div class="chips" id="vch" style="margin-top:6px"></div></div>`);
+  if(!forced) box.append(cfg);
+  const tch=cfg.querySelector("#tch"), vch=cfg.querySelector("#vch");
+  Object.entries(TENSES).forEach(([k,l])=>{const b=$(`<button class="chip" aria-pressed="${verbCfg.tenses.has(k)}">${l}</button>`);b.onclick=()=>{if(verbCfg.tenses.has(k)){if(verbCfg.tenses.size>1)verbCfg.tenses.delete(k);}else verbCfg.tenses.add(k);b.setAttribute("aria-pressed",verbCfg.tenses.has(k));next();};tch.append(b);});
+  [["alle","Alle verb"],["vanlige","De viktigste uregelrette"],["regel","Regelrette (-er, -ir, -re)"]].forEach(([k,l])=>{const b=$(`<button class="chip" aria-pressed="${verbCfg.verbs===k}">${l}</button>`);b.onclick=()=>{verbCfg.verbs=k;vch.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");next();};vch.append(b);});
+
+  const card=$(`<div class="card"></div>`); box.append(card);
+  const tbl=$(`<div class="card"><h3>Slå opp et verb</h3><div class="row" style="margin-bottom:10px"><select id="vsel" class="chip" style="padding:6px 10px"></select></div><div class="tablewrap" id="vtab"></div></div>`);
+  if(!forced) box.append(tbl);
+  const sel=tbl.querySelector("#vsel");
+  Object.keys(V).forEach(k=>sel.append($(`<option value="${k}">${k} – ${V[k].no}</option>`)));
+  function drawTable(){const vb=sel.value;let h=`<table class="conj"><tr><th></th>${Object.values(TENSES).map(t=>`<th>${t}</th>`).join("")}</tr>`;
+    [0,1,2,4,5,6].forEach(pi=>{h+=`<tr><th>${pi===2?"il/elle":pi===6?"ils/elles":PERS[pi]}</th>`;Object.keys(TENSES).forEach(t=>{let f=forms(vb,t,pi)[0];if(t==="pc"&&V[vb].aux==="e"){f=f.replace(/(é|i|u)$/,"$1(e)").replace(/(é|i|u)s$/,"$1(e)s");}h+=`<td>${esc(f)}</td>`;});h+="</tr>";});
+    tbl.querySelector("#vtab").innerHTML=h+"</table>";}
+  sel.onchange=drawTable; drawTable();
+
+  let cur=null, answered=false, queue=forced?forced.slice():null, count=0;
+  function next(){
+    answered=false;
+    if(queue){ if(!queue.length){card.innerHTML=`<div class="done"><div class="big">Fini !</div><p>Alle verbfeilene er gått gjennom.</p></div>`;return;} const [vb,t,pi]=queue.shift().split("|");cur={vb,t,pi:+pi}; }
+    else { const list=VGROUPS[verbCfg.verbs]; cur={vb:pick(list),t:pick([...verbCfg.tenses]),pi:Math.floor(Math.random()*8)}; }
+    const acc=forms(cur.vb,cur.t,cur.pi), pr=pronFor(cur.pi,acc[0]);
+    card.innerHTML=`<div class="eyebrow">Oppgave ${++count}</div>
+      <div class="prompt"><b>${esc(cur.vb)}</b> <span class="muted">(${esc(V[cur.vb].no)})</span><span class="tense">${TENSES[cur.t]}</span></div>
+      <div class="row" style="align-items:baseline"><span class="pron">${esc(pr)}</span>
+      <input class="answer" id="vans" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Skriv verbformen"></div>
+      <div class="accents"></div>
+      <div class="row"><button class="btn" id="vchk">Sjekk</button><button class="btn ghost" id="vskip">Vis svaret</button></div>
+      <div id="vfb"></div>`;
+    const inp=card.querySelector("#vans");
+    "é è ê à â ç ù û î ï ô ë œ".split(" ").forEach(ch=>{const b=$(`<button type="button" aria-label="Sett inn ${ch}">${ch}</button>`);b.onclick=()=>{const s=inp.selectionStart||inp.value.length;inp.value=inp.value.slice(0,s)+ch+inp.value.slice(inp.selectionEnd||s);inp.focus();inp.setSelectionRange(s+1,s+1);};card.querySelector(".accents").append(b);});
+    inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault(); answered? next() : check(false);}});
+    card.querySelector("#vchk").onclick=()=>answered?next():check(false);
+    card.querySelector("#vskip").onclick=()=>answered?null:check(true);
+    inp.focus({preventScroll:true});
+  }
+  function check(giveUp){
+    const inp=card.querySelector("#vans"), acc=forms(cur.vb,cur.t,cur.pi);
+    const u=stripPron(norm(inp.value));
+    if(!u && !giveUp) return;
+    answered=true;
+    const exact=!giveUp && acc.some(a=>norm(a)===u);
+    const nearly=!giveUp && !exact && acc.some(a=>deacc(norm(a))===deacc(u));
+    const ok=exact||nearly;
+    const mkey="v:"+cur.vb+"|"+cur.t+"|"+cur.pi;
+    record(ok,mkey,`${cur.vb} – ${TENSES[cur.t]} – ${PERS[cur.pi]}`);
+    const pr=pronFor(cur.pi,acc[0]), sep=pr==="j'"?"":" ";
+    let extra="";
+    if(cur.t==="pc"&&V[cur.vb].aux==="e") extra=" <b>"+cur.vb+"</b> bruker <i>être</i> i passé composé, og partisippet bøyes etter subjektet (+e for hunkjønn, +s for flertall).";
+    else if(cur.t==="pc") extra=" Passé composé = <i>avoir</i> i presens + partisipp (<i>"+V[cur.vb].pp+"</i>).";
+    else if(cur.t==="imp") extra=" Imparfait: stamme fra <i>nous</i>-formen + -ais, -ais, -ait, -ions, -iez, -aient.";
+    else if(cur.t==="fut"||cur.t==="cond") extra=" Stammen er <i>"+V[cur.vb].fut+"-</i>.";
+    else if(cur.t==="fp") extra=" Futur proche = <i>aller</i> i presens + infinitiv.";
+    const fb=card.querySelector("#vfb");
+    fb.innerHTML= exact? `<div class="fb ok"><span class="hand">${pick(PRAISE)}</span><span class="ex">${esc(pr+sep+acc[0])}</span></div>`
+      : nearly? `<div class="fb ok"><span class="hand">Riktig – men sjekk aksentene!</span><span class="ex">Skrives: <b>${esc(pr+sep+acc[0])}</b></span></div>`
+      : `<div class="fb bad"><span class="hand">${giveUp?"Svaret er:":pick(OOPS)}</span><span class="ex">Riktig: <b>${esc(pr+sep+acc[0])}</b>${acc.length>1?` <span class="muted">(også: ${esc(acc.slice(1).join(", "))})</span>`:""}.${extra}</span></div>`;
+    card.querySelector("#vchk").textContent="Neste";
+    card.querySelector("#vskip").disabled=true;
+    card.querySelector("#vchk").focus();
+  }
+  next();
+  root.append(box);
+}
+
+/* ---------- GRAMMATIKK (første alternativ er riktig) ---------- */
+const G=[
+ {id:"g1",c:"Fortid",q:"Quand j'étais petite, je ___ souvent chez ma grand-mère.",o:["allais","suis allée","irai"],e:"Vane eller noe som skjedde gjentatte ganger i fortiden → imparfait. Signalord: souvent, toujours, quand j'étais petit(e)."},
+ {id:"g2",c:"Fortid",q:"Hier soir, nous ___ un film au cinéma.",o:["avons vu","voyions","voyons"],e:"Én avsluttet handling på et bestemt tidspunkt (hier soir) → passé composé."},
+ {id:"g3",c:"Fortid",q:"Il ___ quand le téléphone a sonné.",o:["dormait","a dormi","dort"],e:"Noe som pågikk (bakgrunn) når noe annet skjedde → imparfait. Det som avbryter står i passé composé."},
+ {id:"g4",c:"Fortid",q:"Elle ___ à Paris en 2019.",o:["est allée","a allé","allait"],e:"Aller tar être i passé composé, og partisippet får -e fordi subjektet er hunkjønn."},
+ {id:"g5",c:"Fortid",q:"Ce matin, nous ___ à sept heures.",o:["nous sommes levés","avons levé","nous avons levés"],e:"Refleksive verb (se lever) bruker alltid être i passé composé."},
+ {id:"g6",c:"Fortid",q:"Mes amies ___ arrivées en retard.",o:["sont","ont","avaient"],e:"Arriver er et bevegelsesverb med être. Husk «DR & MRS VANDERTRAMP»-verbene: aller, venir, arriver, partir, entrer, sortir, naître, mourir, rester, tomber …"},
+ {id:"g7",c:"Fortid",q:"Il faisait beau, alors nous ___ à la plage.",o:["sommes allés","allions","avons allé"],e:"«Il faisait beau» er bakgrunn (imparfait). Det dere gjorde, en avsluttet handling, står i passé composé – med être."},
+ {id:"g8",c:"Fortid",q:"Je ___ ce film. Il est nul !",o:["n'ai pas vu","n'ai vu pas","ai pas vu"],e:"Ved sammensatte tider står ne … pas rundt hjelpeverbet: je n'ai pas vu."},
+ {id:"g9",c:"Pronomen",q:"Tu vois Marie ? – Oui, je ___ vois.",o:["la","lui","le"],e:"Voir quelqu'un → direkte objekt. Marie er hunkjønn → la."},
+ {id:"g10",c:"Pronomen",q:"Tu parles à ton frère ? – Oui, je ___ parle.",o:["lui","le","leur"],e:"Parler à quelqu'un → indirekte objekt, entall → lui."},
+ {id:"g11",c:"Pronomen",q:"Vous téléphonez à vos parents ? – Oui, nous ___ téléphonons.",o:["leur","les","lui"],e:"Téléphoner à + flere personer → leur."},
+ {id:"g12",c:"Pronomen",q:"Tu vas à Lyon ? – Oui, j'___ vais demain.",o:["y","en","lui"],e:"Y erstatter et sted (à Lyon, en France, chez moi)."},
+ {id:"g13",c:"Pronomen",q:"Tu veux du café ? – Oui, j'___ veux bien.",o:["en","y","lui"],e:"En erstatter du/de la/des + noe, eller en mengde: j'en veux."},
+ {id:"g14",c:"Pronomen",q:"Tu as acheté les billets ? – Oui, je les ai ___.",o:["achetés","acheté","achetées"],e:"Når det direkte objektet (les = les billets, hankjønn flertall) står foran avoir, bøyes partisippet: achetés."},
+ {id:"g15",c:"Pronomen",q:"Je ___ appelle Emma.",o:["m'","me","je"],e:"S'appeler er refleksivt: je m'appelle. Me blir m' foran vokal."},
+ {id:"g16",c:"Nektelse",q:"Il n'y a ___ dans la salle. Elle est vide.",o:["personne","jamais","plus"],e:"Ne … personne = ingen (personer)."},
+ {id:"g17",c:"Nektelse",q:"J'ai faim, mais il n'y a ___ de pain.",o:["plus","personne","rien"],e:"Ne … plus = ikke mer / ikke lenger."},
+ {id:"g18",c:"Nektelse",q:"Je n'ai pas ___ frères.",o:["de","des","les"],e:"Etter nektelse blir un/une/des til de (d' foran vokal): je n'ai pas de frères."},
+ {id:"g19",c:"Nektelse",q:"Je ___ aime pas le sport.",o:["n'","ne","pas"],e:"Ne blir n' foran vokal: je n'aime pas."},
+ {id:"g20",c:"Adjektiv",q:"C'est une ___ maison.",o:["belle","beau","bel"],e:"Maison er hunkjønn → belle. (Bel brukes foran hankjønnsord med vokal: un bel homme.)"},
+ {id:"g21",c:"Adjektiv",q:"Ma sœur a les yeux ___.",o:["bleus","bleues","bleu"],e:"Yeux er hankjønn flertall → bleus."},
+ {id:"g22",c:"Adjektiv",q:"Elle porte une robe ___.",o:["blanche","blanc","blanches"],e:"Blanc → blanche i hunkjønn. Farger står etter substantivet."},
+ {id:"g23",c:"Adjektiv",q:"C'est un ___ homme.",o:["vieil","vieux","vieille"],e:"Vieux blir vieil foran hankjønnsord som begynner med vokal eller stum h."},
+ {id:"g24",c:"Adjektiv",q:"Ce film est ___ que l'autre.",o:["meilleur","plus bon","mieux"],e:"Bon → meilleur (ikke «plus bon»). Mieux er adverb: il chante mieux."},
+ {id:"g25",c:"Adjektiv",q:"C'est ___ amie Sophie.",o:["mon","ma","mes"],e:"Foran hunkjønnsord som begynner med vokal brukes mon/ton/son: mon amie."},
+ {id:"g26",c:"Relativ",q:"Le livre ___ je lis est intéressant.",o:["que","qui","où"],e:"Que = objekt (je lis le livre). Det kommer et nytt subjekt rett etter: que je lis."},
+ {id:"g27",c:"Relativ",q:"La fille ___ parle avec Paul est ma cousine.",o:["qui","que","dont"],e:"Qui = subjekt. Rett etter kommer verbet: qui parle."},
+ {id:"g28",c:"Relativ",q:"La ville ___ j'habite est petite.",o:["où","que","qui"],e:"Où = sted eller tid: la ville où j'habite, le jour où …"},
+ {id:"g29",c:"Relativ",q:"C'est le film ___ je t'ai parlé.",o:["dont","que","où"],e:"Parler de quelque chose → dont erstatter de + noe."},
+ {id:"g30",c:"Preposisjoner",q:"J'habite ___ Norvège.",o:["en","à","au"],e:"Hunkjønnsland (ender ofte på -e) → en: en Norvège, en France."},
+ {id:"g31",c:"Preposisjoner",q:"Il va ___ Canada.",o:["au","en","à"],e:"Hankjønnsland → au: au Canada, au Maroc."},
+ {id:"g32",c:"Preposisjoner",q:"Nous partons ___ États-Unis.",o:["aux","au","en"],e:"Land i flertall → aux: aux États-Unis."},
+ {id:"g33",c:"Preposisjoner",q:"Elle travaille ___ Paris.",o:["à","en","au"],e:"Byer → à: à Paris, à Bergen."},
+ {id:"g34",c:"Preposisjoner",q:"Je joue ___ football.",o:["au","du","le"],e:"Jouer à + sport/spill: je joue au football. (Jouer de + instrument: je joue du piano.)"},
+ {id:"g35",c:"Si-setninger",q:"Si j'ai le temps, je ___ au cinéma.",o:["irai","irais","allais"],e:"Si + présent → futur simple (eller présent) i hovedsetningen."},
+ {id:"g36",c:"Si-setninger",q:"Si j'avais de l'argent, je ___ en France.",o:["voyagerais","voyagerai","voyage"],e:"Si + imparfait → conditionnel. Aldri conditionnel rett etter si."},
+ {id:"g37",c:"Diverse",q:"Demain, je ___ mes amis.",o:["vais voir","ai vu","voyais"],e:"Framtid med futur proche: aller + infinitiv."},
+ {id:"g38",c:"Diverse",q:"J'apprends le français ___ trois ans.",o:["depuis","il y a","pendant"],e:"Depuis = noe som har pågått og fortsatt pågår. Fransk bruker présent her."},
+ {id:"g39",c:"Diverse",q:"Je suis allé en France ___ deux ans.",o:["il y a","depuis","dans"],e:"Il y a = for … siden."},
+ {id:"g40",c:"Diverse",q:"Je bois ___ eau.",o:["de l'","du","de la"],e:"Delingsartikkel foran vokal: de l'eau."},
+ {id:"g41",c:"Diverse",q:"Il faut que tu ___ tes devoirs.",o:["fasses","fais","feras"],e:"Etter il faut que kommer subjonctif: que je fasse, que tu fasses …"},
+ {id:"g42",c:"Diverse",q:"Les gens ___ très gentils ici.",o:["sont","est","es"],e:"Les gens er flertall → sont."}
+];
+const GCATS=["Alle",...new Set(G.map(x=>x.c))];
+let gCat="Alle";
+
+function mcRun(root,items,title,onDone){
+  let i=0,right=0;const card=$(`<div class="card"></div>`);root.append(card);
+  function show(){
+    if(i>=items.length){card.innerHTML=`<div class="done"><div class="big">${right} / ${items.length}</div><p>${right===items.length?"Alt riktig – formidable !":right>=items.length*0.7?"Godt jobbet!":"Gå til «Mine feil» og ta dem en gang til."}</p><button class="btn">${onDone?"Tilbake":"Ny runde"}</button></div>`;card.querySelector("button").onclick=()=>{onDone?onDone():render();};return;}
+    const it=items[i];const opts=shuffle(it.o.map((t,k)=>({t,ok:k===0})));
+    const qh=esc(it.q).replace("___",'<span class="gap"></span>');
+    card.innerHTML=`<div class="progress"><i style="width:${i/items.length*100}%"></i></div>
+     <div class="eyebrow">${esc(title||it.c||"")} · ${i+1} av ${items.length}</div>
+     ${it.pre||""}<div class="qtext">${qh}</div><div class="opts"></div><div class="fbx"></div>`;
+    const oc=card.querySelector(".opts");
+    opts.forEach(o=>{const b=$(`<button class="opt">${esc(o.t)}</button>`);b.onclick=()=>{
+      oc.querySelectorAll(".opt").forEach((x,k)=>{x.disabled=true;if(opts[k].ok)x.classList.add("right");});
+      if(!o.ok)b.classList.add("wrong"); else right++;
+      record(o.ok,"m:"+it.id,it.label||it.q);
+      const filled=esc(it.q).replace("___","<b>"+esc(it.o[0])+"</b>");
+      card.querySelector(".fbx").innerHTML=`<div class="fb ${o.ok?"ok":"bad"}"><span class="hand">${o.ok?pick(PRAISE):pick(OOPS)}</span><span class="ex">${it.q.includes("___")?filled+"<br>":""}${it.e}</span></div><div class="row" style="margin-top:12px"><button class="btn">Neste</button></div>`;
+      const nb=card.querySelector(".fbx .btn");nb.onclick=()=>{i++;show();};nb.focus();
+    };oc.append(b);});
+  }
+  show();
+}
+function viewGram(root){
+  const box=$(`<section class="view"></section>`);
+  const top=$(`<div class="card"><h2>Grammatikkquiz</h2><p class="muted">10 spørsmål om gangen. Hvert svar får en kort forklaring på norsk.</p><div class="chips"></div></div>`);
+  GCATS.forEach(c=>{const b=$(`<button class="chip" aria-pressed="${c===gCat}">${c}</button>`);b.onclick=()=>{gCat=c;render();};top.querySelector(".chips").append(b);});
+  box.append(top);root.append(box);
+  const pool=G.filter(x=>gCat==="Alle"||x.c===gCat);
+  mcRun(box,shuffle(pool).slice(0,10),null);
+}
+
+/* ---------- LESING ---------- */
+const R=[
+ {id:"r1",t:"Lucie et les réseaux sociaux",tema:"Ungdom og sosiale medier",txt:[
+ "Lucie a dix-sept ans et elle habite à Lyon avec ses parents et son petit frère. Comme beaucoup de jeunes, elle passe plusieurs heures par jour sur son téléphone. Le matin, elle regarde Instagram avant de prendre son petit-déjeuner, et le soir, elle regarde des vidéos sur TikTok jusqu'à minuit.",
+ "L'année dernière, ses notes ont baissé et elle était souvent fatiguée en classe. Son professeur de maths lui a parlé et lui a conseillé de faire une pause. Au début, Lucie n'était pas d'accord. « Tous mes amis sont en ligne, je ne veux pas rater quelque chose ! » a-t-elle dit.",
+ "Finalement, elle a décidé d'essayer. Maintenant, elle laisse son téléphone dans la cuisine après vingt et une heures. Elle lit un livre ou elle parle avec sa famille. « Je dors mieux et j'ai plus d'énergie, explique-t-elle. Mais je ne vais pas arrêter complètement, parce que les réseaux sociaux, c'est aussi une façon de rester en contact avec mes amis. »"],
+ gl:[["les réseaux sociaux","sosiale medier"],["ses notes ont baissé","karakterene hennes gikk ned"],["conseiller","å råde / gi råd"],["rater","å gå glipp av"],["laisser","å la ligge / forlate"],["complètement","helt"]],
+ q:[
+  {q:"Hvor bor Lucie?",o:["I Lyon, med foreldrene og lillebroren","I Paris, alene","I Lyon, hos besteforeldrene"],e:"«elle habite à Lyon avec ses parents et son petit frère»."},
+  {q:"Hva var problemet i fjor?",o:["Karakterene gikk ned og hun var ofte trøtt i timene","Hun mistet telefonen sin","Hun kranglet med vennene sine"],e:"«ses notes ont baissé et elle était souvent fatiguée en classe»."},
+  {q:"Hvem ga henne råd om å ta en pause?",o:["Mattelæreren","Moren","Lillebroren"],e:"«Son professeur de maths lui a parlé et lui a conseillé de faire une pause»."},
+  {q:"Hva gjør hun nå etter klokka 21?",o:["Legger telefonen på kjøkkenet","Ser på TikTok til midnatt","Går og legger seg med telefonen"],e:"«elle laisse son téléphone dans la cuisine après vingt et une heures»."},
+  {q:"Vrai ou faux: Lucie vil slutte helt med sosiale medier.",o:["Faux","Vrai"],e:"«je ne vais pas arrêter complètement» – hun vil ikke slutte helt."},
+  {q:"Hvilken tid står «elle était souvent fatiguée» i, og hvorfor?",o:["Imparfait – det beskriver en tilstand over tid","Passé composé – det skjedde én gang","Présent – det skjer nå"],e:"Tilstander og beskrivelser i fortid står i imparfait."}
+ ]},
+ {id:"r2",t:"Un été au Québec",tema:"Reise og den fransktalende verden",txt:[
+ "L'été dernier, Jonas, un garçon norvégien de dix-huit ans, est parti au Québec pour travailler dans un camp de vacances pour enfants. Il avait un peu peur avant de partir, parce qu'il ne parlait pas très bien français.",
+ "Les premiers jours étaient difficiles. Les Québécois parlent vite et ils utilisent parfois des mots différents. Par exemple, ils disent « char » pour une voiture et « magasiner » pour faire du shopping. Jonas ne comprenait pas tout, mais les autres moniteurs étaient très gentils et l'aidaient beaucoup.",
+ "Après trois semaines, il comprenait presque tout. Il faisait du canoë avec les enfants, il chantait autour du feu le soir et il a même appris à cuisiner une poutine, un plat typique avec des frites, du fromage et de la sauce.",
+ "« C'était la meilleure expérience de ma vie, dit Jonas. J'ai appris plus de français en deux mois qu'en trois ans à l'école ! L'année prochaine, je voudrais étudier à Montréal. »"],
+ gl:[["avoir peur","å være redd"],["un moniteur","en leder/instruktør på leir"],["aider","å hjelpe"],["presque","nesten"],["le feu","bålet"],["un plat","en rett"]],
+ q:[
+  {q:"Hvorfor dro Jonas til Québec?",o:["For å jobbe på en sommerleir for barn","For å studere ved universitetet","For å besøke familien sin"],e:"«pour travailler dans un camp de vacances pour enfants»."},
+  {q:"Hvorfor var de første dagene vanskelige?",o:["Folk snakket fort og brukte andre ord","Han var syk","Han hadde ingen venner der"],e:"«Les Québécois parlent vite et ils utilisent parfois des mots différents»."},
+  {q:"Hva betyr «magasiner» i Québec?",o:["Å shoppe","Å kjøre bil","Å lese blader"],e:"«magasiner» pour faire du shopping."},
+  {q:"Hva er poutine?",o:["Pommes frites med ost og saus","En type kano","En sang rundt bålet"],e:"«un plat typique avec des frites, du fromage et de la sauce»."},
+  {q:"Vrai ou faux: Jonas forsto alt fra første dag.",o:["Faux","Vrai"],e:"«Jonas ne comprenait pas tout» – han forsto nesten alt først etter tre uker."},
+  {q:"Hva vil Jonas gjøre neste år?",o:["Studere i Montréal","Jobbe på leiren igjen","Lære spansk"],e:"«L'année prochaine, je voudrais étudier à Montréal»."}
+ ]},
+ {id:"r3",t:"Moins de déchets à la cantine",tema:"Miljø og samfunn",txt:[
+ "Dans un lycée de Nantes, un groupe d'élèves a remarqué un problème : chaque jour, la cantine jetait beaucoup de nourriture. Six élèves ont décidé d'agir. Pendant deux semaines, ils ont pesé les restes après chaque repas. Le résultat les a choqués : environ quarante kilos de nourriture partaient à la poubelle chaque jour.",
+ "Les élèves ont présenté leurs résultats au directeur et au chef cuisinier. Ensemble, ils ont trouvé des solutions. Maintenant, les élèves peuvent choisir entre une petite et une grande portion, et le pain est coupé en petits morceaux. Le pain qui reste est donné à une association du quartier.",
+ "Six mois plus tard, les déchets ont diminué de moitié. « Nous sommes fiers, dit Inès, une des élèves du groupe. Si chaque école faisait la même chose, on pourrait sauver des tonnes de nourriture. »"],
+ gl:[["les déchets","avfall / svinn"],["jeter","å kaste"],["agir","å handle / gjøre noe"],["peser","å veie"],["la poubelle","søppelbøtta"],["diminuer de moitié","bli halvert"],["fier / fière","stolt"]],
+ q:[
+  {q:"Hva oppdaget elevene?",o:["At kantina kastet mye mat hver dag","At maten var for dyr","At kantina var stengt"],e:"«chaque jour, la cantine jetait beaucoup de nourriture»."},
+  {q:"Hvordan fant de ut hvor mye som ble kastet?",o:["De veide restene etter hvert måltid i to uker","De spurte kokken","De telte tallerkener"],e:"«Pendant deux semaines, ils ont pesé les restes après chaque repas»."},
+  {q:"Hvor mye mat ble kastet per dag?",o:["Omtrent 40 kilo","Omtrent 14 kilo","Omtrent 4 kilo"],e:"«environ quarante kilos» – quarante = 40."},
+  {q:"Hva er ett av tiltakene?",o:["Elevene kan velge liten eller stor porsjon","Kantina serverer bare brød","Maten blir gratis"],e:"«les élèves peuvent choisir entre une petite et une grande portion»."},
+  {q:"Hva var resultatet etter seks måneder?",o:["Svinnet ble halvert","Svinnet ble doblet","Ingen endring"],e:"«les déchets ont diminué de moitié»."},
+  {q:"«On pourrait sauver des tonnes de nourriture» – hvilken verbform er «pourrait»?",o:["Conditionnel","Futur simple","Imparfait"],e:"Si + imparfait (faisait) → conditionnel (pourrait). Endelsen -ait på futur-stammen pourr- gir conditionnel."}
+ ]}
+];
+let rSel=0;
+function viewRead(root){
+  const box=$(`<section class="view"></section>`);
+  const top=$(`<div class="card"><h2>Leseforståelse</h2><p class="muted">Les teksten først. Bruk ordlisten bare når du står fast – prøv å gjette ut fra sammenhengen.</p><div class="chips"></div></div>`);
+  R.forEach((r,k)=>{const b=$(`<button class="chip" aria-pressed="${k===rSel}">${esc(r.t)}</button>`);b.onclick=()=>{rSel=k;render();};top.querySelector(".chips").append(b);});
+  box.append(top);
+  const r=R[rSel];
+  const tc=$(`<div class="card"><div class="eyebrow">${esc(r.tema)}</div><h2>${esc(r.t)}</h2><div class="text-fr" lang="fr">${r.txt.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
+   <details class="gloss"><summary>Ordliste</summary><dl>${r.gl.map(([a,b])=>`<dt lang="fr">${esc(a)}</dt><dd>${esc(b)}</dd>`).join("")}</dl></details></div>`);
+  box.append(tc);
+  root.append(box);
+  mcRun(box,r.q.map((x,k)=>Object.assign({id:r.id+"q"+k,c:r.t},x)),"Spørsmål til teksten");
+}
+
+/* ---------- SKRIVING ---------- */
+const BUILD=[
+ ["Hier, je suis allée au cinéma avec mes amis.","I går dro jeg på kino med vennene mine."],
+ ["Quand j'étais petit, j'habitais à Bergen.","Da jeg var liten, bodde jeg i Bergen."],
+ ["Je ne suis jamais allé en France.","Jeg har aldri vært i Frankrike."],
+ ["À mon avis, les jeunes passent trop de temps sur leur téléphone.","Etter min mening bruker unge for mye tid på telefonen."],
+ ["Si j'avais plus de temps, je ferais plus de sport.","Hvis jeg hadde mer tid, ville jeg trent mer."],
+ ["L'année prochaine, je vais étudier à l'université.","Neste år skal jeg studere på universitetet."],
+ ["Je pense qu'il est important d'apprendre des langues.","Jeg synes det er viktig å lære språk."],
+ ["Il faisait beau, alors nous sommes allés à la plage.","Det var fint vær, så vi dro til stranden."],
+ ["D'abord, je me lève à sept heures.","Først står jeg opp klokka sju."],
+ ["Ce week-end, nous allons rendre visite à nos grands-parents.","Denne helgen skal vi besøke besteforeldrene våre."],
+ ["Je n'ai pas de frères, mais j'ai une sœur.","Jeg har ingen brødre, men jeg har en søster."],
+ ["Le livre que je lis est très intéressant.","Boka jeg leser er veldig interessant."]
+];
+const FIX=[
+ {id:"f1",q:"Hier, j'ai allé au cinéma.",o:["Hier, je suis allé au cinéma.","Hier, j'ai aller au cinéma.","Hier, je vais allé au cinéma."],e:"Aller tar être i passé composé."},
+ {id:"f2",q:"Elle est très beau.",o:["Elle est très belle.","Elle est très beaux.","Elle est très bel."],e:"Adjektivet bøyes etter subjektet: elle → belle."},
+ {id:"f3",q:"Je ne aime pas le sport.",o:["Je n'aime pas le sport.","Je n'aime le sport pas.","Je aime ne pas le sport."],e:"Ne → n' foran vokal."},
+ {id:"f4",q:"Je veux aller à France.",o:["Je veux aller en France.","Je veux aller au France.","Je veux aller aux France."],e:"Hunkjønnsland → en."},
+ {id:"f5",q:"Les gens est gentils.",o:["Les gens sont gentils.","Les gens es gentils.","Les gens êtes gentils."],e:"Subjektet er flertall → sont."},
+ {id:"f6",q:"Je joue le football le samedi.",o:["Je joue au football le samedi.","Je joue du football le samedi.","Je joue football le samedi."],e:"Jouer à + sport → au football."},
+ {id:"f7",q:"Je suis d'accord avec tu.",o:["Je suis d'accord avec toi.","Je suis d'accord avec te.","Je suis d'accord avec ton."],e:"Etter preposisjon brukes trykksterkt pronomen: moi, toi, lui, elle, nous, vous, eux, elles."},
+ {id:"f8",q:"C'est la plus bonne pizza de la ville.",o:["C'est la meilleure pizza de la ville.","C'est la mieux pizza de la ville.","C'est la plus bien pizza de la ville."],e:"Bon → meilleur(e)."},
+ {id:"f9",q:"Mes amis et moi avons allés à la plage.",o:["Mes amis et moi sommes allés à la plage.","Mes amis et moi avons allé à la plage.","Mes amis et moi sont allés à la plage."],e:"«Mes amis et moi» = nous → nous sommes allés."},
+ {id:"f10",q:"Je suis né en Norvège à 2009.",o:["Je suis né en Norvège en 2009.","Je suis né en Norvège au 2009.","Je suis né en Norvège dans 2009."],e:"Årstall → en 2009."},
+ {id:"f11",q:"Si j'aurais de l'argent, j'achèterais une voiture.",o:["Si j'avais de l'argent, j'achèterais une voiture.","Si j'ai de l'argent, j'achèterais une voiture.","Si j'aurai de l'argent, j'achèterais une voiture."],e:"Aldri conditionnel etter si. Si + imparfait → conditionnel."},
+ {id:"f12",q:"J'habite à Oslo depuis deux ans passés.",o:["J'habite à Oslo depuis deux ans.","J'habite à Oslo il y a deux ans.","J'habite à Oslo pendant deux ans."],e:"Depuis + tidsrom, med présent, for noe som fortsatt pågår."}
+];
+const PHR=[
+ ["Struktur","D'abord","Først"],["Struktur","Ensuite","Deretter"],["Struktur","Puis","Så"],["Struktur","Enfin","Til slutt"],["Struktur","Pour conclure","For å konkludere / Til slutt"],
+ ["Mening","À mon avis","Etter min mening"],["Mening","Je pense que …","Jeg tror/synes at …"],["Mening","Je trouve que …","Jeg synes at …"],["Mening","Selon moi","Ifølge meg"],["Mening","Je suis d'accord avec …","Jeg er enig med …"],["Mening","Je ne suis pas d'accord","Jeg er ikke enig"],
+ ["Argument","Parce que / car","Fordi"],["Argument","Donc","Derfor / altså"],["Argument","C'est pourquoi","Det er derfor"],["Argument","Par exemple","For eksempel"],["Argument","D'un côté … de l'autre …","På den ene siden … på den andre …"],["Argument","Par contre","Derimot"],["Argument","Cependant","Imidlertid / likevel"],["Argument","En plus","I tillegg"],
+ ["Tid","Hier","I går"],["Tid","L'année dernière","I fjor"],["Tid","Il y a deux ans","For to år siden"],["Tid","Depuis trois ans","I tre år (og fortsatt)"],["Tid","Pendant les vacances","I løpet av ferien"],["Tid","Demain","I morgen"],["Tid","L'année prochaine","Neste år"],["Tid","Quand j'étais petit(e)","Da jeg var liten"]
+];
+const CHECK=["Har jeg svart på det oppgaven faktisk spør om?","Har teksten innledning, hoveddel og avslutning?","Bruker jeg bindeord (d'abord, ensuite, parce que, donc, cependant)?","Har jeg brukt både présent, passé composé/imparfait og en framtidsform?","Riktig hjelpeverb i passé composé – être for bevegelsesverb og refleksive verb?","Stemmer verbet med subjektet (ils sont, nous avons …)?","Er adjektivene bøyd i kjønn og tall?","Har jeg ne … pas rundt verbet (og hjelpeverbet)?","Riktig artikkel etter nektelse (pas de)?","Har jeg sjekket aksentene (é, è, à, ç)?"];
+let wTab="bygg";
+function viewWrite(root){
+  const box=$(`<section class="view"></section>`);
+  const top=$(`<div class="card"><h2>Skrivetrening</h2><p class="muted">Bygg setninger, finn feil og lær faste uttrykk. Uttrykkene under løfter en eksamenstekst raskt.</p><div class="chips"></div></div>`);
+  [["bygg","Bygg setningen"],["feil","Rett feilen"],["fraser","Nyttige uttrykk"],["sjekk","Sjekkliste før innlevering"]].forEach(([k,l])=>{const b=$(`<button class="chip" aria-pressed="${k===wTab}">${l}</button>`);b.onclick=()=>{wTab=k;render();};top.querySelector(".chips").append(b);});
+  box.append(top); root.append(box);
+  if(wTab==="bygg") buildEx(box);
+  if(wTab==="feil") mcRun(box,shuffle(FIX).map(x=>Object.assign({c:"Rett feilen",pre:`<p class="muted" style="margin-bottom:4px">Setningen under har én feil:</p><div class="wrong-sent"><s>${esc(x.q)}</s></div><p class="muted">Hvilken versjon er riktig?</p>`},x,{q:"",label:x.q})),"Rett feilen");
+  if(wTab==="fraser") phrases(box);
+  if(wTab==="sjekk"){const c=$(`<div class="card"><h3>Gå gjennom teksten din punkt for punkt</h3><ul class="check">${CHECK.map((t,k)=>`<li><label><input type="checkbox" id="ck${k}"> <span>${esc(t)}</span></label></li>`).join("")}</ul><p class="muted" style="margin-top:12px">Tips: Les teksten én gang bare for verbene, og én gang bare for adjektivene. Det er lettere å se feil når du leter etter én ting om gangen.</p></div>`);box.append(c);}
+}
+function buildEx(box){
+  const list=shuffle(BUILD);let i=0;const card=$(`<div class="card"></div>`);box.append(card);
+  function show(){
+    if(i>=list.length){i=0;}
+    const [fr,no]=list[i];const words=fr.split(" ");let pool=shuffle(words.map((w,k)=>({w,k})));let ans=[];
+    if(pool.every((p,k)=>p.k===k)&&pool.length>1)pool.reverse();
+    card.innerHTML=`<div class="eyebrow">Setning ${i+1} av ${list.length}</div><p class="qtext">${esc(no)}</p>
+     <div class="tokens target" aria-label="Din setning"></div><div class="tokens pool" style="margin-top:6px"></div>
+     <div class="row" style="margin-top:10px"><button class="btn" id="bchk">Sjekk</button><button class="btn ghost" id="bclr">Start på nytt</button></div><div class="fbx"></div>`;
+    const tg=card.querySelector(".target"),pl=card.querySelector(".pool");
+    function draw(){tg.innerHTML="";pl.innerHTML="";
+      ans.forEach((p,k)=>{const b=$(`<button class="tok">${esc(p.w)}</button>`);b.onclick=()=>{ans.splice(k,1);pool.push(p);draw();};tg.append(b);});
+      pool.forEach((p,k)=>{const b=$(`<button class="tok">${esc(p.w)}</button>`);b.onclick=()=>{pool.splice(k,1);ans.push(p);draw();};pl.append(b);});}
+    draw();
+    card.querySelector("#bclr").onclick=()=>{pool=pool.concat(ans);ans=[];draw();};
+    card.querySelector("#bchk").onclick=()=>{
+      if(pool.length){card.querySelector(".fbx").innerHTML=`<div class="fb bad"><span class="ex">Bruk alle ordene først.</span></div>`;return;}
+      const ok=ans.map(p=>p.w).join(" ")===fr;
+      record(ok,null);
+      card.querySelector(".fbx").innerHTML=`<div class="fb ${ok?"ok":"bad"}"><span class="hand">${ok?pick(PRAISE):pick(OOPS)}</span><span class="ex" lang="fr">${ok?"":"Riktig: "}<b>${esc(fr)}</b></span></div><div class="row" style="margin-top:10px"><button class="btn" id="bnext">Neste setning</button></div>`;
+      card.querySelector("#bnext").onclick=()=>{i++;show();};
+    };
+  }
+  show();
+}
+function phrases(box){
+  const cats=[...new Set(PHR.map(p=>p[0]))];
+  const tb=$(`<div class="card"><h3>Ordbank</h3>${cats.map(c=>`<div class="eyebrow" style="margin-top:10px">${c}</div><div class="mlist">${PHR.filter(p=>p[0]===c).map(p=>`<div class="mitem"><span lang="fr"><b>${esc(p[1])}</b></span><span class="muted">${esc(p[2])}</span></div>`).join("")}</div>`).join("")}</div>`);
+  const fc=$(`<div class="card"><h3>Flashkort</h3><p class="muted">Se på det norske uttrykket, si det franske høyt, og trykk for å snu.</p><div class="flash" tabindex="0" role="button"></div><div class="row" style="margin-top:10px;justify-content:space-between"><button class="btn ghost" id="fprev">Forrige</button><span class="muted" id="fcnt"></span><button class="btn" id="fnext">Neste</button></div></div>`);
+  box.append(fc,tb);
+  const deck=shuffle(PHR);let k=0,flip=false;const fl=fc.querySelector(".flash");
+  function draw(){const p=deck[k];fl.innerHTML=flip?`<div><div class="fr" lang="fr">${esc(p[1])}</div><small>${esc(p[0])}</small></div>`:`<div><div class="no">${esc(p[2])}</div><small>Trykk for å se på fransk</small></div>`;fc.querySelector("#fcnt").textContent=(k+1)+" / "+deck.length;}
+  fl.onclick=()=>{flip=!flip;draw();};fl.onkeydown=e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();flip=!flip;draw();}};
+  fc.querySelector("#fnext").onclick=()=>{k=(k+1)%deck.length;flip=false;draw();};
+  fc.querySelector("#fprev").onclick=()=>{k=(k-1+deck.length)%deck.length;flip=false;draw();};
+  draw();
+}
+
+/* ---------- MINE FEIL ---------- */
+const ALLMC={};G.forEach(x=>ALLMC[x.id]=x);FIX.forEach(x=>ALLMC[x.id]=Object.assign({c:"Rett feilen",pre:`<div class="wrong-sent"><s>${esc(x.q)}</s></div><p class="muted">Hvilken versjon er riktig?</p>`},x,{q:"",label:x.q}));
+R.forEach(r=>r.q.forEach((x,k)=>ALLMC[r.id+"q"+k]=Object.assign({id:r.id+"q"+k,c:r.t},x)));
+function viewErr(root){
+  const box=$(`<section class="view"></section>`);root.append(box);
+  const keys=Object.keys(S.mist);
+  if(!keys.length){box.append($(`<div class="card"><h2>Mine feil</h2><p>Ingen feil lagret ennå. Alt du svarer feil på i verb, grammatikk, lesing og «Rett feilen» havner her, og forsvinner når du svarer riktig på det.</p></div>`));return;}
+  const vk=keys.filter(k=>k.startsWith("v:")).map(k=>k.slice(2)), mk=keys.filter(k=>k.startsWith("m:")).map(k=>k.slice(2)).filter(id=>ALLMC[id]);
+  const c=$(`<div class="card"><h2>Mine feil</h2><p class="muted">${keys.length} ting å ta en gang til. Svarer du riktig, forsvinner de fra lista.</p>
+   <div class="row" style="margin:6px 0 14px">${vk.length?`<button class="btn" id="ev">Øv på verbfeil (${vk.length})</button>`:""}${mk.length?`<button class="btn" id="em">Øv på grammatikk og lesing (${mk.length})</button>`:""}</div>
+   <div class="mlist">${keys.slice(0,40).map(k=>`<div class="mitem"><span>${esc((S.mist[k].label||"").replace("___","…"))}</span><span class="muted">${S.mist[k].n}×</span></div>`).join("")}</div>
+   <div class="row" style="margin-top:14px"><button class="btn ghost" id="eclr">Tøm lista</button><span id="eclrq"></span></div></div>`);
+  box.append(c);
+  const ev=c.querySelector("#ev"), em=c.querySelector("#em");
+  if(ev) ev.onclick=()=>{box.innerHTML="";viewVerb(box,shuffle(vk));};
+  if(em) em.onclick=()=>{box.innerHTML="";mcRun(box,shuffle(mk).map(id=>ALLMC[id]),"Repetisjon",()=>render());};
+  c.querySelector("#eclr").onclick=()=>{const q=c.querySelector("#eclrq");q.innerHTML=`<span class="muted">Sikker?</span> <button class="btn" id="eyes" style="padding:6px 12px">Ja, tøm</button>`;q.querySelector("#eyes").onclick=()=>{S.mist={};save();updateTop();render();};};
+}
+
+/* ---------- START ---------- */
+function viewHome(root){
+  const box=$(`<section class="view"></section>`);
+  const t=S.days[today()]||{n:0,r:0}, pct=S.total?Math.round(S.right/S.total*100):0, st=streak();
+  box.append($(`<div class="card"><div class="eyebrow">Fremgang</div><div class="stats" style="margin-top:6px">
+    <div class="stat"><b>${t.r}/${t.n}</b><span>riktige i dag</span></div>
+    <div class="stat"><b>${st}</b><span>${st===1?"dag":"dager"} på rad</span></div>
+    <div class="stat"><b>${S.total}</b><span>svar totalt</span></div>
+    <div class="stat"><b>${pct} %</b><span>treffsikkerhet</span></div></div></div>`));
+  const g=$(`<div class="grid2"></div>`);
+  [["verb","Verb","Bøy de viktigste verbene i seks tider. Grunnmuren for alt annet."],["grammatikk","Grammatikk","Fortid, pronomen, adjektiv, nektelse, si-setninger – med forklaring."],["lesing","Lesing","Tre tekster med spørsmål, i stil med eksamenstekster."],["skriving","Skriving","Bygg setninger, rett feil og lær uttrykk som løfter teksten."]].forEach(([v,h,d])=>{const b=$(`<button class="tile"><b>${h}</b><span class="muted">${d}</span></button>`);b.onclick=()=>go(v);g.append(b);});
+  box.append(g);
+  box.append($(`<div class="card"><h2>Forslag til økt – 20 minutter</h2>
+   <ul class="check">
+    <li><label><input type="checkbox" id="p1"><span><b>5 min verb</b> – passé composé og imparfait først. Det er der flest poeng ryker.</span></label></li>
+    <li><label><input type="checkbox" id="p2"><span><b>5 min grammatikk</b> – én runde på 10 spørsmål.</span></label></li>
+    <li><label><input type="checkbox" id="p3"><span><b>5 min lesing eller skriving</b> – annenhver dag.</span></label></li>
+    <li><label><input type="checkbox" id="p4"><span><b>5 min Mine feil</b> – ta feilene en gang til.</span></label></li>
+    <li><label><input type="checkbox" id="p5"><span><b>Én gang i uka:</b> skriv en kort tekst (150–250 ord) for hånd eller på PC, og gå gjennom sjekklista.</span></label></li>
+   </ul></div>`));
+  root.append(box);
+}
+
+/* ---------- ruting ---------- */
+const VIEWS={hjem:viewHome,verb:viewVerb,grammatikk:viewGram,lesing:viewRead,skriving:viewWrite,feil:viewErr};
+function cur(){const h=location.hash.replace("#","");return VIEWS[h]?h:"hjem";}
+function go(v){if(location.hash!=="#"+v){location.hash=v;}else render();}
+function render(){
+  const v=cur(),app=document.getElementById("app");app.innerHTML="";
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.v===v));
+  VIEWS[v](app);
+}
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>go(b.dataset.v));
+window.addEventListener("hashchange",render);
+updateTop();render();
+})();
+</script>
+</body></html>
